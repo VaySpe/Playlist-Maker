@@ -4,4 +4,8 @@
     <string name="search">Поиск</string>
     <string name="library">Медиатека</string>
     <string name="settings">Настройки</string>
+    <string name="dark_mode">Темная тема</string>
+    <string name="share">Поделиться приложением</string>
+    <string name="support">Написать в поддержку</string>
+    <string name="doc">Пользовательское соглашение</string>
 </resources>
