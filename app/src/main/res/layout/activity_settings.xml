@@ -14,11 +14,13 @@
             android:padding="16dp">
 
             <ImageButton
+                android:id="@+id/settings_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:src="@drawable/arrow_back"
-                android:padding="12dp" />
+                android:padding="12dp"
+                android:foreground="?attr/selectableItemBackground"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,8 +51,7 @@
                 android:textSize="@dimen/medium_text"
                 android:layout_marginStart="16dp"
                 android:textColor="@color/black"
-                android:layout_gravity="center_vertical"
-                />
+                android:layout_gravity="center_vertical" />
 
             <Switch
                 android:layout_width="wrap_content"
@@ -73,8 +74,7 @@
             android:textSize="@dimen/medium_text"
             android:layout_marginStart="16dp"
             android:textColor="@color/black"
-            android:layout_gravity="center_vertical"
-            />
+            android:layout_gravity="center_vertical"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -100,8 +100,7 @@
                 android:textSize="@dimen/medium_text"
                 android:layout_marginStart="16dp"
                 android:textColor="@color/black"
-                android:layout_gravity="center_vertical"
-                />
+                android:layout_gravity="center_vertical"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -127,8 +126,7 @@
                 android:textSize="@dimen/medium_text"
                 android:layout_marginStart="16dp"
                 android:textColor="@color/black"
-                android:layout_gravity="center_vertical"
-                />
+                android:layout_gravity="center_vertical"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
