@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="@string/settings"
-                android:textSize="22sp"
+                android:textSize="@dimen/big_text"
                 android:textColor="@color/black"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
@@ -39,14 +39,14 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="21dp"
-            android:paddingBottom="21dp">
+            android:paddingTop="@dimen/medium_padding"
+            android:paddingBottom="@dimen/medium_padding">
             
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/dark_mode"
-                android:textSize="16sp"
+                android:textSize="@dimen/medium_text"
                 android:layout_marginStart="16dp"
                 android:textColor="@color/black"
                 android:layout_gravity="center_vertical"
@@ -63,14 +63,14 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="21dp"
-            android:paddingBottom="21dp">
+            android:paddingTop="@dimen/medium_padding"
+            android:paddingBottom="@dimen/medium_padding">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/share"
-            android:textSize="16sp"
+            android:textSize="@dimen/medium_text"
             android:layout_marginStart="16dp"
             android:textColor="@color/black"
             android:layout_gravity="center_vertical"
@@ -90,14 +90,14 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="21dp"
-            android:paddingBottom="21dp">
+            android:paddingTop="@dimen/medium_padding"
+            android:paddingBottom="@dimen/medium_padding">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/support"
-                android:textSize="16sp"
+                android:textSize="@dimen/medium_text"
                 android:layout_marginStart="16dp"
                 android:textColor="@color/black"
                 android:layout_gravity="center_vertical"
@@ -117,14 +117,14 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="21dp"
-            android:paddingBottom="21dp">
+            android:paddingTop="@dimen/medium_padding"
+            android:paddingBottom="@dimen/medium_padding">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/doc"
-                android:textSize="16sp"
+                android:textSize="@dimen/medium_text"
                 android:layout_marginStart="16dp"
                 android:textColor="@color/black"
                 android:layout_gravity="center_vertical"
