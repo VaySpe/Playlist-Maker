@@ -9,8 +9,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/settings_back"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent"
+        style="@style/ToolbarStyle"
         app:navigationIcon="@drawable/arrow_back"
         app:title="@string/settings" />
 
