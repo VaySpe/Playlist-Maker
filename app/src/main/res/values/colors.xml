@@ -3,4 +3,5 @@
     <color name="black">#1A1B22</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#3772E7</color>
+    <color name="on_search_background">#AEAFB4</color>
 </resources>
