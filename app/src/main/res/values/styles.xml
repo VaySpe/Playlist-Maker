@@ -37,4 +37,10 @@
         <item name="android:textSize">@dimen/medium_text</item>
     </style>
 
+    <style name="SearchLine">
+        <item name="android:background">@drawable/search_background</item>
+        <item name="android:textColorHint">@color/on_search_background</item>
+        <item name="android:drawableTint">@color/on_search_background</item>
+    </style>
+
 </resources>

@@ -16,8 +16,8 @@
         android:text="@string/playlist_maker"
         android:textColor="@color/white"
         android:textSize="@dimen/big_text"
-        android:paddingBottom="12dp"
-        android:paddingTop="8dp"
+        android:paddingBottom="@dimen/nvsmall_padding"
+        android:paddingTop="@dimen/vsmall_padding"
         android:fontFamily="@font/ys_display_medium"/>
 
     <LinearLayout
