@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".SearchActivity"
     android:orientation="vertical"
-    style="@style/NightBackground">
+    style="@style/NightBackground"
+    android:paddingHorizontal="@dimen/small_padding"
+    android:paddingVertical="@dimen/vsmall_padding">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/search_back"
@@ -18,8 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/small_padding"
-        android:paddingVertical="@dimen/vsmall_padding">
+        style="@style/SearchLineLayout">
+
 
         <EditText
             android:id="@+id/inputEditText"
@@ -32,6 +34,7 @@
             android:drawablePadding="@dimen/nvsmall_padding"
             android:padding="@dimen/nvsmall_padding"
             android:gravity="center_vertical"
+            android:background="@null"
             style="@style/SearchLine"/>
 
         <ImageView
@@ -40,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            style="@style/ClearBtn"/>
 
     </LinearLayout>
 

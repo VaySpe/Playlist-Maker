@@ -16,8 +16,7 @@ class SettingsActivity : AppCompatActivity() {
         val backSettingsBtn = findViewById<androidx.appcompat.widget.Toolbar>(R.id.settings_back)
 
         backSettingsBtn.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
+            finish()
         }
 
 
@@ -47,9 +46,9 @@ class SettingsActivity : AppCompatActivity() {
 
         docBtn.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_VIEW)
-            shareIntent.data = Uri.parse(R.string.doc_url.toString())
+            val docUrl = getString(R.string.doc_url)
+            shareIntent.data = Uri.parse(docUrl)
             startActivity(shareIntent)
         }
-
     }
 }
