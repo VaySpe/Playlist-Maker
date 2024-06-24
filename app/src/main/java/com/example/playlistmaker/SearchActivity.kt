@@ -16,9 +16,9 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val backSettingsBtn = findViewById<androidx.appcompat.widget.Toolbar>(R.id.search_back)
+        val backSearchBtn = findViewById<androidx.appcompat.widget.Toolbar>(R.id.search_back)
 
-        backSettingsBtn.setOnClickListener {
+        backSearchBtn.setOnClickListener {
             val displayIntent = Intent(this, MainActivity::class.java)
             startActivity(displayIntent)
         }
