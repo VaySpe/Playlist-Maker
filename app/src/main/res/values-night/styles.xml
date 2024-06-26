@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Background">
-        <item name="android:background">@color/background</item>
+        <item name="android:background">@color/black</item>
     </style>
+
+    <style name="NightBackground">
+        <item name="android:background">@color/black</item>
+    </style>
+
     <style name="ToolbarStyle">
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="navigationIcon">@drawable/arrow_back</item>
+        <item name="navigationIcon">@drawable/arrow_back_night</item>
     </style>
 
     <style name="MainButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
@@ -33,21 +38,21 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingHorizontal">@dimen/small_padding</item>
         <item name="android:paddingVertical">@dimen/medium_padding</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/medium_text</item>
     </style>
 
     <style name="SearchLine">
-        <item name="android:textColorHint">@color/on_search_background</item>
-        <item name="android:drawableTint">@color/on_search_background</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="android:drawableTint">@color/black</item>
     </style>
 
     <style name="SearchLineLayout">
-        <item name="android:background">@drawable/search_background</item>
+        <item name="android:background">@drawable/search_background_night</item>
     </style>
 
     <style name="ClearBtn">
-        <item name="tint">@color/on_search_background</item>
+        <item name="tint">@color/black</item>
     </style>
 
 </resources>

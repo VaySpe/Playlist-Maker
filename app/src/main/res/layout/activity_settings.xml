@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    style="@style/NightBackground"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/settings_back"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        app:navigationIcon="@drawable/arrow_back"
+        style="@style/ToolbarStyle"
         app:title="@string/settings" />
 
     <LinearLayout
@@ -21,44 +18,27 @@
         android:layout_marginTop="@dimen/small_padding">
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:paddingHorizontal="@dimen/small_padding"
-            android:paddingVertical="@dimen/medium_padding"
             android:text="@string/dark_mode"
-            android:textColor="@color/black"
-            android:textSize="@dimen/medium_text"/>
+            style="@style/SettingsText"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/share"
             android:drawableEnd="@drawable/share"
-            android:paddingHorizontal="@dimen/small_padding"
-            android:paddingVertical="@dimen/medium_padding"
             android:text="@string/share"
-            android:textColor="@color/black"
-            android:textSize="@dimen/medium_text" />
+            style="@style/SettingsText"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/support"
             android:drawableEnd="@drawable/support"
-            android:paddingHorizontal="@dimen/small_padding"
-            android:paddingVertical="@dimen/medium_padding"
-            android:text="@string/share"
-            android:textColor="@color/black"
-            android:textSize="@dimen/medium_text" />
+            android:text="@string/support"
+            style="@style/SettingsText"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/doc"
             android:drawableEnd="@drawable/arrow_forward"
-            android:paddingHorizontal="@dimen/small_padding"
-            android:paddingVertical="@dimen/medium_padding"
-            android:text="@string/share"
-            android:textColor="@color/black"
-            android:textSize="@dimen/medium_text" />
+            android:text="@string/doc"
+            style="@style/SettingsText"/>
 
     </LinearLayout>
 
