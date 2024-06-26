@@ -3,9 +3,6 @@ package com.example.playlistmaker
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 
 class SettingsActivity : AppCompatActivity() {
@@ -25,7 +22,7 @@ class SettingsActivity : AppCompatActivity() {
         shareBtn.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, R.string.share_url)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_url))
             startActivity(shareIntent)
         }
 
@@ -35,9 +32,9 @@ class SettingsActivity : AppCompatActivity() {
         supportBtn.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SENDTO)
             shareIntent.data = Uri.parse("mailto:")
-            shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("vik.antufev@yandex.ru"))
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.mail_theme)
-            shareIntent.putExtra(Intent.EXTRA_TEXT, R.string.mail_message)
+            shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail)))
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT,  getString(R.string.mail_theme))
+            shareIntent.putExtra(Intent.EXTRA_TEXT,  getString(R.string.mail_message))
             startActivity(shareIntent)
         }
 
@@ -46,8 +43,7 @@ class SettingsActivity : AppCompatActivity() {
 
         docBtn.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_VIEW)
-            val docUrl = getString(R.string.doc_url)
-            shareIntent.data = Uri.parse(docUrl)
+            shareIntent.data = Uri.parse(getString(R.string.doc_url))
             startActivity(shareIntent)
         }
     }

@@ -10,7 +10,7 @@
         <item name="navigationIcon">@drawable/arrow_back</item>
     </style>
 
-    <style name="MainButtonStyle">
+    <style name="MainButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>

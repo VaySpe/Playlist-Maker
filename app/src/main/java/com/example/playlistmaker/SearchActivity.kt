@@ -1,31 +1,33 @@
 package com.example.playlistmaker
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 
 class SearchActivity : AppCompatActivity() {
     private var searchLine: String = AMOUNT_DEF
+    private lateinit var inputEditText: EditText
+    private lateinit var clearButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        inputEditText = findViewById(R.id.inputEditText)
+        clearButton = findViewById(R.id.clearIcon)
 
         val backSearchBtn = findViewById<androidx.appcompat.widget.Toolbar>(R.id.search_back)
 
         backSearchBtn.setOnClickListener {
             finish()
         }
-
-        val inputEditText = findViewById<EditText>(R.id.inputEditText)
-        val clearButton = findViewById<ImageView>(R.id.clearIcon)
 
         inputEditText.setText(searchLine)
 
@@ -55,11 +57,14 @@ class SearchActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(PRODUCT_AMOUNT, searchLine)
+        Log.d("SearchActivity", "onSaveInstanceState: $searchLine")
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         searchLine = savedInstanceState.getString(PRODUCT_AMOUNT, AMOUNT_DEF)
+        inputEditText.setText(searchLine)
+        Log.d("SearchActivity", "onRestoreInstanceState: $searchLine")
     }
 
     companion object {

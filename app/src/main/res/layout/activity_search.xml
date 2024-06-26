@@ -7,44 +7,51 @@
     android:layout_height="match_parent"
     tools:context=".SearchActivity"
     android:orientation="vertical"
-    style="@style/NightBackground"
-    android:paddingHorizontal="@dimen/small_padding"
-    android:paddingVertical="@dimen/vsmall_padding">
+    style="@style/NightBackground">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/search_back"
         style="@style/ToolbarStyle"
-        app:title="@string/search"/>
+        app:title="@string/search" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        style="@style/SearchLineLayout">
+        android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/small_padding"
+        android:layout_marginVertical="@dimen/small_padding">
 
-
-        <EditText
-            android:id="@+id/inputEditText"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:hint="@string/search"
-            android:textColor="@color/black"
-            android:drawableStart="@drawable/ic_search"
-            android:drawablePadding="@dimen/nvsmall_padding"
-            android:padding="@dimen/nvsmall_padding"
-            android:gravity="center_vertical"
-            android:background="@null"
-            style="@style/SearchLine"/>
-
-        <ImageView
-            android:id="@+id/clearIcon"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:visibility="gone"
-            style="@style/ClearBtn"/>
+            style="@style/SearchLineLayout">
+
+            <EditText
+                android:id="@+id/inputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/search"
+                android:textColor="@color/black"
+                android:textSize="@dimen/medium_text"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="@dimen/nvsmall_padding"
+                android:padding="@dimen/nvsmall_padding"
+                android:gravity="center_vertical"
+                android:background="@null"
+                style="@style/SearchLine"/>
+
+            <ImageView
+                android:id="@+id/clearIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:src="@drawable/x"
+                android:paddingVertical="@dimen/nvsmall_padding"
+                android:paddingHorizontal="14dp"
+                style="@style/ClearBtn"
+                android:visibility="gone"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 
