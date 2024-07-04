@@ -10,7 +10,7 @@
         <item name="navigationIcon">@drawable/arrow_back</item>
     </style>
 
-    <style name="MainButtonStyle">
+    <style name="MainButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
@@ -38,9 +38,16 @@
     </style>
 
     <style name="SearchLine">
-        <item name="android:background">@drawable/search_background</item>
         <item name="android:textColorHint">@color/on_search_background</item>
         <item name="android:drawableTint">@color/on_search_background</item>
+    </style>
+
+    <style name="SearchLineLayout">
+        <item name="android:background">@drawable/search_background</item>
+    </style>
+
+    <style name="ClearBtn">
+        <item name="tint">@color/on_search_background</item>
     </style>
 
 </resources>

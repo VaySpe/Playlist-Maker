@@ -3,9 +3,6 @@ package com.example.playlistmaker
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 
 class SettingsActivity : AppCompatActivity() {
@@ -16,8 +13,7 @@ class SettingsActivity : AppCompatActivity() {
         val backSettingsBtn = findViewById<androidx.appcompat.widget.Toolbar>(R.id.settings_back)
 
         backSettingsBtn.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
+            finish()
         }
 
 
@@ -25,9 +21,8 @@ class SettingsActivity : AppCompatActivity() {
 
         shareBtn.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
-            val message = "https://practicum.yandex.ru/profile/android-developer-plus/" // Заменить строку на R.strings.[название]
             shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, message)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_url))
             startActivity(shareIntent)
         }
 
@@ -35,13 +30,11 @@ class SettingsActivity : AppCompatActivity() {
         val supportBtn = findViewById<com.google.android.material.textview.MaterialTextView>(R.id.support)
 
         supportBtn.setOnClickListener {
-            val messageTheme = "Сообщение разработчикам и разработчицам приложения Playlist Maker" // Заменить строку на R.strings.[название]
-            val message = "Спасибо разработчикам и разработчицам за крутое приложение!" // Заменить строку на R.strings.[название]
             val shareIntent = Intent(Intent.ACTION_SENDTO)
             shareIntent.data = Uri.parse("mailto:")
-            shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("vik.antufev@yandex.ru"))
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, messageTheme)
-            shareIntent.putExtra(Intent.EXTRA_TEXT, message)
+            shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail)))
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT,  getString(R.string.mail_theme))
+            shareIntent.putExtra(Intent.EXTRA_TEXT,  getString(R.string.mail_message))
             startActivity(shareIntent)
         }
 
@@ -49,11 +42,9 @@ class SettingsActivity : AppCompatActivity() {
         val docBtn = findViewById<com.google.android.material.textview.MaterialTextView>(R.id.doc)
 
         docBtn.setOnClickListener {
-            val url = "https://yandex.ru/legal/practicum_offer/"   // Заменить строку на R.strings.[название]
             val shareIntent = Intent(Intent.ACTION_VIEW)
-            shareIntent.data = Uri.parse(url)
+            shareIntent.data = Uri.parse(getString(R.string.doc_url))
             startActivity(shareIntent)
         }
-
     }
 }
