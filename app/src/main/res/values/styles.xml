@@ -50,4 +50,20 @@
         <item name="tint">@color/on_search_background</item>
     </style>
 
+    <style name="SearchTrackName">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SearchTrackOther">
+        <item name="android:textColor">@color/on_search_background</item>
+    </style>
+
+    <style name="SearchPoint">
+        <item name="android:src">@drawable/ellipse</item>
+    </style>
+
+    <style name="SearchArrow">
+        <item name="android:src">@drawable/arrow_forward</item>
+    </style>
+
 </resources>
