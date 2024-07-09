@@ -5,20 +5,25 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
     private var searchLine: String = AMOUNT_DEF
     private lateinit var inputEditText: EditText
     private lateinit var clearButton: ImageView
+    private lateinit var queryInput: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,39 @@ class SearchActivity : AppCompatActivity() {
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
+        }
+
+        val trackBaseUrl = getString(R.string.base_url)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(trackBaseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val trackService = retrofit.create(iTunesApi::class.java)
+
+        fun getTrack(text: String) {
+            trackService
+                .search(text)
+                .enqueue(object : Callback<TrackResponse> {
+                    override fun onResponse(call: Call<TrackResponse>,
+                                            response: Response<TrackResponse>
+                    ) {
+                        Log.d("TRACK_LOG", "Tracks: ${response.body()?.contents?.results}")
+                    }
+
+                    override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                    }
+
+                })
+        }
+        queryInput = findViewById(R.id.inputEditText)
+        queryInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                getTrack(queryInput.text.toString())
+                true
+            }
+            false
         }
 
         val simpleTextWatcher = object : TextWatcher {

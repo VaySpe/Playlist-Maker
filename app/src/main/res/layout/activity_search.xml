@@ -38,6 +38,8 @@
                 android:padding="@dimen/nvsmall_padding"
                 android:gravity="center_vertical"
                 android:background="@null"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 style="@style/SearchLine"/>
 
             <ImageView

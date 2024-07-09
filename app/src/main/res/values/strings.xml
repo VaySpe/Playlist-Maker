@@ -13,4 +13,5 @@
     <string name="mail_message">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="doc_url">https://yandex.ru/legal/practicum_offer/</string>
     <string name="mail">vik.antufev@yandex.ru</string>
+    <string name="base_url">https://itunes.apple.com</string>
 </resources>
