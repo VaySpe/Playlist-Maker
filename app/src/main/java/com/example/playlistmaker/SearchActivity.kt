@@ -2,13 +2,18 @@ package com.example.playlistmaker
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +33,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var queryInput: EditText
     private lateinit var trackAdapter: TrackAdapter
     private val tracks = ArrayList<Track>()
+    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var currentCall: Call<TrackResponse>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +43,15 @@ class SearchActivity : AppCompatActivity() {
         inputEditText = findViewById(R.id.inputEditText)
         clearButton = findViewById(R.id.clearIcon)
         val recycler = findViewById<RecyclerView>(R.id.tracksList)
+        var noResultsView = findViewById<LinearLayout>(R.id.no_results_view)
+        var errorView = findViewById<LinearLayout>(R.id.error_view)
+        var retryButton = findViewById<Button>(R.id.retry_button)
+
+        fun hideAllViews() {
+            recycler.isVisible = false
+            noResultsView.isVisible = false
+            errorView.isVisible = false
+        }
 
         val backSearchBtn = findViewById<androidx.appcompat.widget.Toolbar>(R.id.search_back)
 
@@ -63,44 +79,69 @@ class SearchActivity : AppCompatActivity() {
 
         val trackService = retrofit.create(iTunesApi::class.java)
 
+        fun showToast(message: String) {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        }
+
         fun getTrack(text: String) {
             Log.d("TRACK_LOG", "Starting search for: $text")
-            trackService
-                .search(text)
-                .enqueue(object : Callback<TrackResponse> {
-                    override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
-                        Log.d("TRACK_LOG", "Response code: ${response.code()}")
-                        if (response.isSuccessful) {
-                            val trackResponse = response.body()
-                            Log.d("TRACK_LOG", "Raw response: ${response.raw()}")
-                            if (trackResponse != null && trackResponse.results.isNotEmpty()) {
-                                val formattedTracks = trackResponse.results.map { content ->
-                                    Track(
-                                        trackName = content.trackName,
-                                        artistName = content.artistName,
-                                        trackTime = SimpleDateFormat(
-                                            "mm:ss",
-                                            Locale.getDefault()
-                                        ).format(content.trackTimeMillis),
-                                        artworkUrl100 = content.artworkUrl100
-                                    )
-                                }
-                                tracks.clear()
-                                tracks.addAll(formattedTracks)
-                                trackAdapter.notifyDataSetChanged()
-                                recycler.isVisible = true
-                            }
-                            Log.d("TRACK_LOG", "Tracks: ${trackResponse?.results}")
-                        } else {
-                            Log.e("TRACK_LOG", "Response not successful: ${response.errorBody()?.string()}")
-                        }
-                    }
+            hideAllViews()
 
-                    override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                        Log.e("TRACK_LOG", "Error fetching tracks", t)
-                        recycler.isVisible = false
+            val timeoutRunnable = Runnable {
+                if (!::currentCall.isInitialized || !currentCall.isExecuted) return@Runnable
+                currentCall.cancel()
+                errorView.isVisible = true
+            }
+            handler.postDelayed(timeoutRunnable, 10000) // 10 секунд
+
+            currentCall = trackService.search(text)
+            currentCall.enqueue(object : Callback<TrackResponse> {
+                override fun onResponse(
+                    call: Call<TrackResponse>,
+                    response: Response<TrackResponse>
+                ) {
+                    handler.removeCallbacks(timeoutRunnable)
+                    Log.d("TRACK_LOG", "Response code: ${response.code()}")
+                    if (response.isSuccessful) {
+                        val trackResponse = response.body()
+                        Log.d("TRACK_LOG", "Raw response: ${response.raw()}")
+                        if (trackResponse != null && trackResponse.results.isNotEmpty()) {
+                            val formattedTracks = trackResponse.results.map { content ->
+                                Track(
+                                    trackName = content.trackName,
+                                    artistName = content.artistName,
+                                    trackTime = SimpleDateFormat(
+                                        "mm:ss",
+                                        Locale.getDefault()
+                                    ).format(content.trackTimeMillis),
+                                    artworkUrl100 = content.artworkUrl100
+                                )
+                            }
+                            tracks.clear()
+                            tracks.addAll(formattedTracks)
+                            trackAdapter.notifyDataSetChanged()
+                            recycler.isVisible = true
+                        } else {
+                            noResultsView.isVisible = true
+                        }
+                        Log.d("TRACK_LOG", "Tracks: ${trackResponse?.results}")
+                    } else {
+                        Log.e(
+                            "TRACK_LOG",
+                            "Response not successful: ${response.errorBody()?.string()}"
+                        )
+                        errorView.isVisible = true
+                        showToast("Код ошибки: ${response.code()}")
                     }
-                })
+                }
+
+                override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                    handler.removeCallbacks(timeoutRunnable)
+                    Log.e("TRACK_LOG", "Error fetching tracks", t)
+                    recycler.isVisible = false
+                    errorView.isVisible = true
+                }
+            })
         }
 
         queryInput = findViewById(R.id.inputEditText)
@@ -111,6 +152,10 @@ class SearchActivity : AppCompatActivity() {
             } else {
                 false
             }
+        }
+
+        retryButton.setOnClickListener {
+            getTrack(queryInput.text.toString())
         }
 
         val simpleTextWatcher = object : TextWatcher {
@@ -128,10 +173,11 @@ class SearchActivity : AppCompatActivity() {
                 // empty
             }
         }
+
         inputEditText.addTextChangedListener(simpleTextWatcher)
 
         recycler.layoutManager = LinearLayoutManager(this)
-        trackAdapter = TrackAdapter(tracks) // Initialize the adapter
+        trackAdapter = TrackAdapter(tracks)
         recycler.adapter = trackAdapter
     }
 

@@ -71,4 +71,20 @@
         <item name="android:src">@drawable/arrow_forward_night</item>
     </style>
 
+    <style name="No_results_connection_text">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="No_connection_img">
+        <item name="android:src">@drawable/ic_connection_error_night</item>
+    </style>
+    <style name="No_results_img">
+        <item name="android:src">@drawable/ic_no_results_night</item>
+    </style>
+    <style name="Connection_retry" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="cornerRadius">54dp</item>
+    </style>
+
 </resources>
