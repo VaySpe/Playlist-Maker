@@ -1,12 +1,9 @@
 package com.example.playlistmaker
 
-class TrackResponse(val contents: Content)  {
-    data class Content(val resultCount: Int,
-                       val results: List<ContentTrack>)
+class TrackResponse(val resultCount: Int,
+                    val results: List<Content>)
 
-    data class ContentTrack(val trackName: String,
-        val artistName: String,
-        val trackTimeMillis: Int,
-        val artworkUrl100: String
-    )
-}
+data class Content(val trackName: String,
+    val artistName: String,
+    val trackTimeMillis: Int,
+    val artworkUrl100: String)

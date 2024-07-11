@@ -18,12 +18,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class SearchActivity : AppCompatActivity() {
     private var searchLine: String = AMOUNT_DEF
     private lateinit var inputEditText: EditText
     private lateinit var clearButton: ImageView
     private lateinit var queryInput: EditText
+    private lateinit var trackAdapter: TrackAdapter
+    private val tracks = ArrayList<Track>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +46,8 @@ class SearchActivity : AppCompatActivity() {
         inputEditText.setText(searchLine)
 
         clearButton.setOnClickListener {
+            tracks.clear()
+            trackAdapter.notifyDataSetChanged()
             inputEditText.setText("")
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -58,27 +64,53 @@ class SearchActivity : AppCompatActivity() {
         val trackService = retrofit.create(iTunesApi::class.java)
 
         fun getTrack(text: String) {
+            Log.d("TRACK_LOG", "Starting search for: $text")
             trackService
                 .search(text)
                 .enqueue(object : Callback<TrackResponse> {
-                    override fun onResponse(call: Call<TrackResponse>,
-                                            response: Response<TrackResponse>
-                    ) {
-                        Log.d("TRACK_LOG", "Tracks: ${response.body()?.contents?.results}")
+                    override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
+                        Log.d("TRACK_LOG", "Response code: ${response.code()}")
+                        if (response.isSuccessful) {
+                            val trackResponse = response.body()
+                            Log.d("TRACK_LOG", "Raw response: ${response.raw()}")
+                            if (trackResponse != null && trackResponse.results.isNotEmpty()) {
+                                val formattedTracks = trackResponse.results.map { content ->
+                                    Track(
+                                        trackName = content.trackName,
+                                        artistName = content.artistName,
+                                        trackTime = SimpleDateFormat(
+                                            "mm:ss",
+                                            Locale.getDefault()
+                                        ).format(content.trackTimeMillis),
+                                        artworkUrl100 = content.artworkUrl100
+                                    )
+                                }
+                                tracks.clear()
+                                tracks.addAll(formattedTracks)
+                                trackAdapter.notifyDataSetChanged()
+                                recycler.isVisible = true
+                            }
+                            Log.d("TRACK_LOG", "Tracks: ${trackResponse?.results}")
+                        } else {
+                            Log.e("TRACK_LOG", "Response not successful: ${response.errorBody()?.string()}")
+                        }
                     }
 
                     override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                        Log.e("TRACK_LOG", "Error fetching tracks", t)
+                        recycler.isVisible = false
                     }
-
                 })
         }
+
         queryInput = findViewById(R.id.inputEditText)
         queryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 getTrack(queryInput.text.toString())
                 true
+            } else {
+                false
             }
-            false
         }
 
         val simpleTextWatcher = object : TextWatcher {
@@ -98,59 +130,9 @@ class SearchActivity : AppCompatActivity() {
         }
         inputEditText.addTextChangedListener(simpleTextWatcher)
 
-        val tracks = ArrayList<Track>()
-
-        tracks.add(
-            Track(
-                "Smells Like Teen Spirit",
-                "Nirvana",
-                "5:01",
-                "https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg"
-            )
-        )
-        tracks.add(
-            Track(
-                "Billie Jean",
-                "Michael Jackson",
-                "4:35",
-                "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"
-            )
-        )
-        tracks.add(
-            Track(
-                "Stayin' Alive",
-                "Bee Gees",
-                "4:10",
-                "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg"
-            )
-        )
-        tracks.add(
-            Track(
-                "Whole Lotta Love",
-                "Led Zeppelin",
-                "5:33",
-                "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg"
-            )
-        )
-        tracks.add(
-            Track(
-                "Sweet Child O'Mine",
-                "Guns N' Roses",
-                "5:03",
-                "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"
-            )
-        )
-        tracks.add(
-            Track(
-                "No music and ochen` dlinnaya string, really looooong",
-                "Nan, soo loooooooooooooooooooooooooong",
-                "00:00? :)",
-                "https://error.ee"
-            )
-        )
-
         recycler.layoutManager = LinearLayoutManager(this)
-        recycler.adapter = TrackAdapter(tracks)
+        trackAdapter = TrackAdapter(tracks) // Initialize the adapter
+        recycler.adapter = trackAdapter
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -164,7 +146,6 @@ class SearchActivity : AppCompatActivity() {
         searchLine = savedInstanceState.getString(PRODUCT_AMOUNT, AMOUNT_DEF)
         inputEditText.setText(searchLine)
         Log.d("SearchActivity", "onRestoreInstanceState: $searchLine")
-
     }
 
     companion object {
