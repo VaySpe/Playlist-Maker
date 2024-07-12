@@ -85,6 +85,7 @@
             android:layout_height="wrap_content"
             android:text="@string/no_results"
             android:textSize="@dimen/medium_text"
+            android:fontFamily="@font/ys_display_medium"
             style="@style/No_results_connection_text"/>
     </LinearLayout>
 
@@ -111,6 +112,7 @@
             android:textSize="@dimen/medium_text"
             android:gravity="center"
             android:textAlignment="center"
+            android:fontFamily="@font/ys_display_medium"
             android:paddingHorizontal="@dimen/medium_padding"/>
 
         <Button

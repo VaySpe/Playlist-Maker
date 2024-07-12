@@ -148,6 +148,9 @@ class SearchActivity : AppCompatActivity() {
         queryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 getTrack(queryInput.text.toString())
+                val inputMethodManager =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
                 true
             } else {
                 false
