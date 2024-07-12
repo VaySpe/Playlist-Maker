@@ -84,7 +84,6 @@
     <style name="Connection_retry" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textColor">@color/black</item>
-        <item name="cornerRadius">54dp</item>
     </style>
 
 </resources>

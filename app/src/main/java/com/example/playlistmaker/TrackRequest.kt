@@ -1,4 +1,3 @@
 package com.example.playlistmaker
 
-class TrackRequest(val text: String)  {
-}
+data class TrackRequest(val text: String)

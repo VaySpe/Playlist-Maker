@@ -17,4 +17,5 @@
     <string name="connection_error">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="no_results">Ничего не нашлось</string>
     <string name="retry">Обновить</string>
+    <string name="request_timed_out">Время ожидания ответа истекло</string>
 </resources>
