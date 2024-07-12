@@ -38,6 +38,8 @@
                 android:padding="@dimen/nvsmall_padding"
                 android:gravity="center_vertical"
                 android:background="@null"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 style="@style/SearchLine"/>
 
             <ImageView
@@ -61,5 +63,67 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
+
+
+    <LinearLayout
+        android:layout_marginTop="100dp"
+        android:id="@+id/no_results_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/No_results_img"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/small_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_results"
+            android:textSize="@dimen/medium_text"
+            android:fontFamily="@font/ys_display_medium"
+            style="@style/No_results_connection_text"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="100dp"
+        android:id="@+id/error_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/No_connection_img"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/small_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connection_error"
+            style="@style/No_results_connection_text"
+            android:textSize="@dimen/medium_text"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:fontFamily="@font/ys_display_medium"
+            android:paddingHorizontal="@dimen/medium_padding"/>
+
+        <Button
+            android:layout_marginTop="@dimen/medium_padding"
+            android:id="@+id/retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cornerRadius="54dp"
+            android:text="@string/retry"
+            style="@style/Connection_retry"/>
+
+    </LinearLayout>
 
 </LinearLayout>

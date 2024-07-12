@@ -32,6 +32,8 @@ class TrackViewHodler(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .transform(RoundedCorners(dpToPx(2.0f, itemView.context )))
             .centerCrop()
             .into(artworkUrl100View)
+
+        artistNameView.requestLayout()
     }
 
     private fun dpToPx(dp: Float, context: Context): Int {
