@@ -3,7 +3,12 @@ package com.example.playlistmaker
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.switchmaterial.SwitchMaterial
+
+const val PLAYLIST_MAKER_PREFERENCES  = "playlist_maker_preferences`"
+const val DARK_MODE_KEY = "key_for_dark_mode"
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +50,16 @@ class SettingsActivity : AppCompatActivity() {
             val shareIntent = Intent(Intent.ACTION_VIEW)
             shareIntent.data = Uri.parse(getString(R.string.doc_url))
             startActivity(shareIntent)
+        }
+
+        val sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
+        val isDarkMode = sharedPrefs.getBoolean(DARK_MODE_KEY, false)
+        themeSwitcher.isChecked = isDarkMode
+
+        themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
+            sharedPrefs.edit().putBoolean(DARK_MODE_KEY, checked).apply()
+            (applicationContext as App).switchTheme(checked)
         }
     }
 }
