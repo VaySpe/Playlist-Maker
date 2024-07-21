@@ -247,6 +247,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         val gson = Gson()
         loadHistoryTracks()
 
+        // Удаляем трек из истории, если он уже существует
+        historyTracks.removeAll { it.trackId == newTrack.trackId }
+
         // Добавляем новый трек в начало списка истории
         historyTracks.add(0, newTrack)
 
