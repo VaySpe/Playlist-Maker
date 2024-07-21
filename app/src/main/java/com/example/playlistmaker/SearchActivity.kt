@@ -39,7 +39,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     private lateinit var clearHistoryButton: Button
     private lateinit var queryInput: EditText
     private lateinit var trackAdapter: TrackAdapter
-    private lateinit var historyTrackAdapter: HistoryTrackAdapter
+    private lateinit var historyTrackAdapter: TrackAdapter
     private lateinit var recycler: RecyclerView
     private lateinit var historyRecycler: RecyclerView
     private lateinit var noResultsView: LinearLayout
@@ -64,6 +64,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         errorView = findViewById(R.id.error_view)
         retryButton = findViewById(R.id.retry_button)
         historyView = findViewById(R.id.history_view)
+        queryInput = findViewById(R.id.inputEditText)
 
         val backSearchBtn = findViewById<androidx.appcompat.widget.Toolbar>(R.id.search_back)
 
@@ -128,7 +129,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         }
 
         historyRecycler.layoutManager = LinearLayoutManager(this)
-        historyTrackAdapter = HistoryTrackAdapter(historyTracks)
+        historyTrackAdapter = TrackAdapter(historyTracks, this)
         historyRecycler.adapter = historyTrackAdapter
         loadHistoryTracks()
 
