@@ -18,4 +18,6 @@
     <string name="no_results">Ничего не нашлось</string>
     <string name="retry">Обновить</string>
     <string name="request_timed_out">Время ожидания ответа истекло</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="searched">Вы искали</string>
 </resources>

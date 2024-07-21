@@ -85,5 +85,13 @@
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="SearchText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/small_text_12</item>
+        <item name="android:layout_marginTop">@dimen/small_padding</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+    </style>
 
 </resources>
