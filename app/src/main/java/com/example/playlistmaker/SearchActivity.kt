@@ -18,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +28,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.Locale
+
+const val HISTORY_TRACKS_KEY = "key_for_history_tracks"
 
 class SearchActivity : AppCompatActivity() {
     private var searchLine: String = EMPTY
@@ -101,9 +106,20 @@ class SearchActivity : AppCompatActivity() {
         trackAdapter = TrackAdapter(tracks)
         recycler.adapter = trackAdapter
 
+        val sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
+        val jsonHistoryTracks = sharedPrefs.getString(HISTORY_TRACKS_KEY, "")
+
+        if (!jsonHistoryTracks.isNullOrEmpty()) {
+            val gson = Gson()
+            val type = object : TypeToken<ArrayList<Track>>() {}.type
+            val savedTracks: ArrayList<Track> = gson.fromJson(jsonHistoryTracks, type)
+            historyTracks.addAll(savedTracks)
+        }
+
         historyRecycler.layoutManager = LinearLayoutManager(this)
         historyTrackAdapter = HistoryTrackAdapter(historyTracks)
         historyRecycler.adapter = historyTrackAdapter
+        loadHistoryTracks()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -191,7 +207,8 @@ class SearchActivity : AppCompatActivity() {
                         }
                         tracks.clear()
                         tracks.addAll(formattedTracks)
-                        historyTracks.add(formattedTracks[0]) // добавлять по клику сохранять и доставать
+                        historyTracks.add(formattedTracks[0])  // сделать добавление по клику
+                        addTrackToHistory(formattedTracks[0])  // сделать добавление по клику
                         historyTrackAdapter.notifyDataSetChanged()
                         trackAdapter.notifyDataSetChanged()
                         recycler.isVisible = true
@@ -213,6 +230,33 @@ class SearchActivity : AppCompatActivity() {
                 errorView.isVisible = true
             }
         })
+    }
+
+    private fun addTrackToHistory(newTrack: Track) {
+        val sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
+        val gson = Gson()
+        loadHistoryTracks()
+
+        // Добавьте новый трек в историю
+        historyTracks.add(newTrack)
+
+        // Сохраните обновленную историю
+        val editor = sharedPrefs.edit()
+        val updatedJsonHistoryTracks = gson.toJson(historyTracks)
+        editor.putString(HISTORY_TRACKS_KEY, updatedJsonHistoryTracks)
+        editor.apply()
+    }
+
+    private fun loadHistoryTracks() {
+        val sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
+        val jsonHistoryTracks = sharedPrefs.getString(HISTORY_TRACKS_KEY, "")
+        if (!jsonHistoryTracks.isNullOrEmpty()) {
+            val gson = Gson()
+            val type = object : TypeToken<ArrayList<Track>>() {}.type
+            val savedTracks: ArrayList<Track> = gson.fromJson(jsonHistoryTracks, type)
+            historyTracks.clear()
+            historyTracks.addAll(savedTracks)
+        }
     }
 
     fun showToast(message: String) {
