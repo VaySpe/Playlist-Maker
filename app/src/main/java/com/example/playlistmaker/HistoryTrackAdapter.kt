@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TrackAdapter(private val tracks: ArrayList<Track>) : RecyclerView.Adapter<TrackViewHolder> () {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
+class HistoryTrackAdapter(private val tracks: ArrayList<Track>) : RecyclerView.Adapter<HistoryTrackViewHolder> () {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryTrackViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.track_view, parent, false)
-        return TrackViewHolder(view)
+        return HistoryTrackViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HistoryTrackViewHolder, position: Int) {
         holder.bind(tracks[position])
     }
 

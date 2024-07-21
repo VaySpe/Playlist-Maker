@@ -32,11 +32,14 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var clearButton: ImageView
     private lateinit var queryInput: EditText
     private lateinit var trackAdapter: TrackAdapter
+    private lateinit var historyTrackAdapter: HistoryTrackAdapter
     private lateinit var recycler: RecyclerView
+    private lateinit var historyRecycler: RecyclerView
     private lateinit var noResultsView: LinearLayout
     private lateinit var errorView: LinearLayout
     private lateinit var retryButton: Button
     private val tracks = ArrayList<Track>()
+    private val historyTracks = ArrayList<Track>()
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var currentCall: Call<TrackResponse>
 
@@ -47,6 +50,7 @@ class SearchActivity : AppCompatActivity() {
         inputEditText = findViewById(R.id.inputEditText)
         clearButton = findViewById(R.id.clearIcon)
         recycler = findViewById(R.id.tracksList)
+        historyRecycler = findViewById(R.id.tracksListHistory)
         noResultsView = findViewById(R.id.no_results_view)
         errorView = findViewById(R.id.error_view)
         retryButton = findViewById(R.id.retry_button)
@@ -96,6 +100,10 @@ class SearchActivity : AppCompatActivity() {
         recycler.layoutManager = LinearLayoutManager(this)
         trackAdapter = TrackAdapter(tracks)
         recycler.adapter = trackAdapter
+
+        historyRecycler.layoutManager = LinearLayoutManager(this)
+        historyTrackAdapter = HistoryTrackAdapter(historyTracks)
+        historyRecycler.adapter = historyTrackAdapter
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -177,11 +185,14 @@ class SearchActivity : AppCompatActivity() {
                                     "mm:ss",
                                     Locale.getDefault()
                                 ).format(content.trackTimeMillis),
-                                artworkUrl100 = content.artworkUrl100
+                                artworkUrl100 = content.artworkUrl100,
+                                trackId = content.trackId
                             )
                         }
                         tracks.clear()
                         tracks.addAll(formattedTracks)
+                        historyTracks.add(formattedTracks[0]) // добавлять по клику сохранять и доставать
+                        historyTrackAdapter.notifyDataSetChanged()
                         trackAdapter.notifyDataSetChanged()
                         recycler.isVisible = true
                     } else {

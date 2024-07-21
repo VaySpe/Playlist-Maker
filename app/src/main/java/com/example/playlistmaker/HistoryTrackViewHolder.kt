@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class TrackViewHodler(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class HistoryTrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackNameView: TextView
     private val artistNameView: TextView
     private val trackTimeView: TextView
