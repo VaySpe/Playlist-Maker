@@ -44,6 +44,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     private lateinit var historyRecycler: RecyclerView
     private lateinit var noResultsView: LinearLayout
     private lateinit var errorView: LinearLayout
+    private lateinit var historyView: LinearLayout
     private lateinit var retryButton: Button
     private val tracks = ArrayList<Track>()
     private val historyTracks = ArrayList<Track>()
@@ -62,6 +63,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         noResultsView = findViewById(R.id.no_results_view)
         errorView = findViewById(R.id.error_view)
         retryButton = findViewById(R.id.retry_button)
+        historyView = findViewById(R.id.history_view)
 
         val backSearchBtn = findViewById<androidx.appcompat.widget.Toolbar>(R.id.search_back)
 
@@ -79,6 +81,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
             hideAllViews()
+            updateHistoryView()
         }
 
         clearHistoryButton.setOnClickListener {
@@ -100,6 +103,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
                 searchLine = s.toString()
                 clearButton.isVisible = searchLine.isNotEmpty()
                 recycler.isVisible = searchLine.isNotEmpty()
+                updateHistoryView()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -127,6 +131,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         historyTrackAdapter = HistoryTrackAdapter(historyTracks)
         historyRecycler.adapter = historyTrackAdapter
         loadHistoryTracks()
+
+        updateHistoryView()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -254,6 +260,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         val updatedJsonHistoryTracks = gson.toJson(historyTracks)
         editor.putString(HISTORY_TRACKS_KEY, updatedJsonHistoryTracks)
         editor.apply()
+
+        updateHistoryView()
     }
 
     private fun loadHistoryTracks() {
@@ -289,5 +297,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         editor.apply()
 
         showToast("History cleared")
+        updateHistoryView()
+    }
+
+    private fun updateHistoryView() {
+        historyView.isVisible = historyTracks.isNotEmpty() && searchLine.isEmpty()
     }
 }
