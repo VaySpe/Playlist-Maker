@@ -3,7 +3,6 @@ package com.example.playlistmaker
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.getDefaultNightMode
 
 class App : Application() {
@@ -16,7 +15,7 @@ class App : Application() {
         sharedPreferencesMode = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
 
         darkTheme = sharedPreferencesMode.getBoolean(DARK_MODE_KEY,
-            getDefaultNightMode() == MODE_NIGHT_NO
+            getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO
         )
         switchTheme(darkTheme)
     }
