@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import retrofit2.Call
@@ -31,7 +30,8 @@ import java.util.Locale
 
 const val HISTORY_TRACKS_KEY = "key_for_history_tracks"
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
+
     private var searchLine: String = EMPTY
     private lateinit var inputEditText: EditText
     private lateinit var clearButton: ImageView
@@ -103,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
         inputEditText.addTextChangedListener(simpleTextWatcher)
 
         recycler.layoutManager = LinearLayoutManager(this)
-        trackAdapter = TrackAdapter(tracks)
+        trackAdapter = TrackAdapter(tracks, this)
         recycler.adapter = trackAdapter
 
         val sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
@@ -207,9 +207,6 @@ class SearchActivity : AppCompatActivity() {
                         }
                         tracks.clear()
                         tracks.addAll(formattedTracks)
-                        historyTracks.add(formattedTracks[0])  // сделать добавление по клику
-                        addTrackToHistory(formattedTracks[0])  // сделать добавление по клику
-                        historyTrackAdapter.notifyDataSetChanged()
                         trackAdapter.notifyDataSetChanged()
                         recycler.isVisible = true
                     } else {
@@ -261,5 +258,12 @@ class SearchActivity : AppCompatActivity() {
 
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onTrackClick(track: Track) {
+        trackAdapter.selectedTrack = track
+        addTrackToHistory(track)
+        historyTrackAdapter.notifyDataSetChanged()
+        showToast("Selected track: ${track.trackName}")
     }
 }
