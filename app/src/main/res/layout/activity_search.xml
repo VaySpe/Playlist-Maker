@@ -122,7 +122,8 @@
             android:layout_height="wrap_content"
             app:cornerRadius="54dp"
             android:text="@string/retry"
-            style="@style/Connection_retry"/>
+            style="@style/Connection_retry"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 
@@ -131,8 +132,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/medium_padding"
-        android:orientation="vertical">
-        <!-- android:visibility="gone"> -->
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_gravity="center"
@@ -145,7 +146,8 @@
             android:layout_marginTop="@dimen/vsmall_padding"
             android:id="@+id/tracksListHistory"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <Button
             android:layout_marginTop="@dimen/medium_padding"
@@ -155,7 +157,8 @@
             app:cornerRadius="54dp"
             android:text="@string/clear_history"
             style="@style/Connection_retry"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 

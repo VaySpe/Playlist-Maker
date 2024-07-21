@@ -29,12 +29,14 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 const val HISTORY_TRACKS_KEY = "key_for_history_tracks"
+const val MAX_HISTORY_TRACKS = 10
 
 class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
     private var searchLine: String = EMPTY
     private lateinit var inputEditText: EditText
     private lateinit var clearButton: ImageView
+    private lateinit var clearHistoryButton: Button
     private lateinit var queryInput: EditText
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var historyTrackAdapter: HistoryTrackAdapter
@@ -54,6 +56,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
         inputEditText = findViewById(R.id.inputEditText)
         clearButton = findViewById(R.id.clearIcon)
+        clearHistoryButton = findViewById(R.id.clear_history_button)
         recycler = findViewById(R.id.tracksList)
         historyRecycler = findViewById(R.id.tracksListHistory)
         noResultsView = findViewById(R.id.no_results_view)
@@ -76,6 +79,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
             hideAllViews()
+        }
+
+        clearHistoryButton.setOnClickListener {
+            clearHistoryTracks()
         }
 
         setupSearchActionListener(findViewById(R.id.inputEditText))
@@ -234,8 +241,13 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         val gson = Gson()
         loadHistoryTracks()
 
-        // Добавьте новый трек в историю
-        historyTracks.add(newTrack)
+        // Добавляем новый трек в начало списка истории
+        historyTracks.add(0, newTrack)
+
+        // Ограничиваем размер списка истории
+        if (historyTracks.size > MAX_HISTORY_TRACKS) {
+            historyTracks.removeAt(historyTracks.size - 1)
+        }
 
         // Сохраните обновленную историю
         val editor = sharedPrefs.edit()
@@ -265,5 +277,17 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         addTrackToHistory(track)
         historyTrackAdapter.notifyDataSetChanged()
         showToast("Selected track: ${track.trackName}")
+    }
+
+    private fun clearHistoryTracks() {
+        historyTracks.clear()
+        historyTrackAdapter.notifyDataSetChanged()
+
+        val sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
+        val editor = sharedPrefs.edit()
+        editor.remove(HISTORY_TRACKS_KEY)
+        editor.apply()
+
+        showToast("History cleared")
     }
 }

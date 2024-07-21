@@ -6,8 +6,8 @@
     <color name="on_search_background">#AEAFB4</color>
     <color name="yellow">#FCD452</color>
 
-    <color name="track_color_checked">#3772E7</color> <!-- Синий, когда включен -->
-    <color name="track_color_unchecked">#AEAFB4</color> <!-- Серый, когда выключен -->
-    <color name="thumb_color_checked">#3772E7</color> <!-- Синий, когда включен -->
-    <color name="thumb_color_unchecked">#E6E8EB</color> <!-- Серый, когда выключен -->
+    <color name="track_color_checked">#9FBBF3</color> <!-- Синий фон, когда включен -->
+    <color name="track_color_unchecked">#AEAFB4</color> <!-- Серый фон, когда выключен -->
+    <color name="thumb_color_checked">#3772E7</color> <!-- Синий круг, когда включен -->
+    <color name="thumb_color_unchecked">#E6E8EB</color> <!-- Серый круг, когда выключен -->
 </resources>
