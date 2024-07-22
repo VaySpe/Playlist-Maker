@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class TrackViewHodler(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackNameView: TextView
     private val artistNameView: TextView
     private val trackTimeView: TextView
@@ -22,7 +22,7 @@ class TrackViewHodler(itemView: View) : RecyclerView.ViewHolder(itemView) {
         artworkUrl100View = itemView.findViewById(R.id.trackImage)
     }
 
-    fun bind(model: Track){
+    fun bind(model: Track, clickListener: TrackAdapter.OnTrackClickListener){
         trackNameView.text = model.trackName
         artistNameView.text = model.artistName
         trackTimeView.text = model.trackTime
@@ -34,6 +34,10 @@ class TrackViewHodler(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .into(artworkUrl100View)
 
         artistNameView.requestLayout()
+
+        itemView.setOnClickListener {
+            clickListener.onTrackClick(model)
+        }
     }
 
     private fun dpToPx(dp: Float, context: Context): Int {

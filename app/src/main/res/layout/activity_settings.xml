@@ -18,15 +18,16 @@
         android:layout_marginTop="@dimen/small_padding">
 
         <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/themeSwitcher"
             android:gravity="center_vertical"
             android:text="@string/dark_mode"
-            style="@style/SettingsText"/>
+            style="@style/SettingsText" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/share"
             android:drawableEnd="@drawable/share"
             android:text="@string/share"
-            style="@style/SettingsText"/>
+            style="@style/SettingsText" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/support"
