@@ -216,7 +216,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
                                     Locale.getDefault()
                                 ).format(content.trackTimeMillis),
                                 artworkUrl100 = content.artworkUrl100,
-                                trackId = content.trackId
+                                trackId = content.trackId,
+                                collectionName = content.collectionName,
+                                releaseDate = content.releaseDate,
+                                primaryGenreName = content.primaryGenreName,
+                                country = content.country
                             )
                         }
                         tracks.clear()

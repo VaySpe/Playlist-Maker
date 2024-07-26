@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 
-const val PLAYLIST_MAKER_PREFERENCES  = "playlist_maker_preferences`"
+const val PLAYLIST_MAKER_PREFERENCES = "playlist_maker_preferences`"
 const val DARK_MODE_KEY = "key_for_dark_mode"
 
 class SettingsActivity : AppCompatActivity() {
@@ -24,7 +24,8 @@ class SettingsActivity : AppCompatActivity() {
         }
 
 
-        val shareBtn = findViewById<com.google.android.material.textview.MaterialTextView>(R.id.share)
+        val shareBtn =
+            findViewById<com.google.android.material.textview.MaterialTextView>(R.id.share)
 
         shareBtn.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
@@ -34,14 +35,15 @@ class SettingsActivity : AppCompatActivity() {
         }
 
 
-        val supportBtn = findViewById<com.google.android.material.textview.MaterialTextView>(R.id.support)
+        val supportBtn =
+            findViewById<com.google.android.material.textview.MaterialTextView>(R.id.support)
 
         supportBtn.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SENDTO)
             shareIntent.data = Uri.parse("mailto:")
             shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail)))
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT,  getString(R.string.mail_theme))
-            shareIntent.putExtra(Intent.EXTRA_TEXT,  getString(R.string.mail_message))
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_theme))
+            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_message))
             startActivity(shareIntent)
         }
 

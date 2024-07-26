@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TrackAdapter(private val tracks: ArrayList<Track>,
-                   private val clickListener: OnTrackClickListener
-) : RecyclerView.Adapter<TrackViewHolder> () {
+class TrackAdapter(
+    private val tracks: ArrayList<Track>,
+    private val clickListener: OnTrackClickListener
+) : RecyclerView.Adapter<TrackViewHolder>() {
 
     var selectedTrack: Track? = null
 

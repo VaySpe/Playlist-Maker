@@ -14,7 +14,8 @@ class App : Application() {
         super.onCreate()
         sharedPreferencesMode = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
 
-        darkTheme = sharedPreferencesMode.getBoolean(DARK_MODE_KEY,
+        darkTheme = sharedPreferencesMode.getBoolean(
+            DARK_MODE_KEY,
             getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO
         )
         switchTheme(darkTheme)
