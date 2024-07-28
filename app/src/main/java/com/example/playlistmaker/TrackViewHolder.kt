@@ -22,15 +22,15 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         artworkUrl100View = itemView.findViewById(R.id.trackImage)
     }
 
-    fun bind(model: Track, clickListener: TrackAdapter.OnTrackClickListener){
+    fun bind(model: Track, clickListener: TrackAdapter.OnTrackClickListener) {
         trackNameView.text = model.trackName
         artistNameView.text = model.artistName
         trackTimeView.text = model.trackTime
         Glide.with(itemView.context)
             .load(model.artworkUrl100)
             .placeholder(R.drawable.placeholder)
-            .transform(RoundedCorners(dpToPx(2.0f, itemView.context )))
             .centerCrop()
+            .transform(RoundedCorners(dpToPx(2.0f, itemView.context)))
             .into(artworkUrl100View)
 
         artistNameView.requestLayout()
@@ -44,6 +44,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             dp,
-            context.resources.displayMetrics).toInt()
+            context.resources.displayMetrics
+        ).toInt()
     }
 }

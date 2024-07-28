@@ -20,4 +20,9 @@
     <string name="request_timed_out">Время ожидания ответа истекло</string>
     <string name="clear_history">Очистить историю</string>
     <string name="searched">Вы искали</string>
+    <string name="label_duration">Длительность</string>
+    <string name="label_album">Альбом</string>
+    <string name="label_year">Год</string>
+    <string name="label_genre">Жанр</string>
+    <string name="label_country">Страна</string>
 </resources>
