@@ -3,8 +3,12 @@
     <dimen name="small_text_12">12sp</dimen>
     <dimen name="medium_text">16sp</dimen>
     <dimen name="big_text">24sp</dimen>
+    <dimen name="big_padding_32">32dp</dimen>
+    <dimen name="vbig_padding_52">52dp</dimen>
+    <dimen name="medium_plus_padding_24">24dp</dimen>
     <dimen name="medium_padding">20dp</dimen>
     <dimen name="small_padding">16dp</dimen>
     <dimen name="nvsmall_padding">12dp</dimen>
     <dimen name="vsmall_padding">8dp</dimen>
+    <dimen name="vsmall_padding_4">4dp</dimen>
 </resources>

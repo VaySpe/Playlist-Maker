@@ -1,6 +1,7 @@
 package com.example.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -292,7 +293,13 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         trackAdapter.selectedTrack = track
         addTrackToHistory(track)
         historyTrackAdapter.notifyDataSetChanged()
-        showToast("Selected track: ${track.trackName}")
+
+        val gson = Gson()
+        val trackJson = gson.toJson(track)
+
+        val intent = Intent(this, AudioplayerActivity::class.java)
+        intent.putExtra("track_json", trackJson)
+        startActivity(intent)
     }
 
     private fun clearHistoryTracks() {
