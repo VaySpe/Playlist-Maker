@@ -43,8 +43,8 @@ class AudioplayerActivity : AppCompatActivity() {
         Glide.with(this)
             .load(artworkUrl512)
             .placeholder(R.drawable.placeholder)
-            .transform(RoundedCorners(dpToPx(2.0f, this)))
             .centerCrop()
+            .transform(RoundedCorners(dpToPx(8.0f, this)))
             .into(imageView)
 
 
