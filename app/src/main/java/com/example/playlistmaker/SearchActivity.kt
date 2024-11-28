@@ -115,6 +115,14 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
             override fun afterTextChanged(s: Editable?) {
                 searchRunnable?.let { handler.removeCallbacks(it)}
+
+                if(s.isNullOrEmpty()){
+                    hideAllViews()
+                    updateHistoryView()
+                    progressBar.isVisible = false
+                    return
+                }
+
                 searchRunnable = Runnable{
                     performSearch(s.toString())
                 }
@@ -170,7 +178,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         recycler.isVisible = false
         noResultsView.isVisible = false
         errorView.isVisible = false
-        progressBar.isVisible = true
     }
 
     private fun trackService(): iTunesApi {
@@ -185,6 +192,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     }
 
     private fun performSearch(searchRequest: String) {
+        if (searchRequest.isEmpty()) {
+            progressBar.isVisible = false
+            return
+        }
+
         progressBar.isVisible = true
         getTrack(searchRequest)
     }
