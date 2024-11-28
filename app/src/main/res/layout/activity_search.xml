@@ -38,7 +38,6 @@
                 android:padding="@dimen/nvsmall_padding"
                 android:gravity="center_vertical"
                 android:background="@null"
-                android:imeOptions="actionDone"
                 android:singleLine="true"
                 style="@style/SearchLine"/>
 
@@ -64,6 +63,14 @@
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/big_padding_48"
+        android:layout_height="@dimen/big_padding_48"
+        android:layout_marginTop="140dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/thumb_color_checked"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_marginTop="100dp"
