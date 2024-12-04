@@ -250,7 +250,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
                                 collectionName = content.collectionName,
                                 releaseDate = content.releaseDate,
                                 primaryGenreName = content.primaryGenreName,
-                                country = content.country
+                                country = content.country,
+                                previewUrl = content.previewUrl
                             )
                         }
                         tracks.clear()

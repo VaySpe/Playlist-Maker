@@ -84,7 +84,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/No_results_img"/>
+            android:src="@drawable/ic_no_results"/>
 
         <TextView
             android:layout_marginTop="@dimen/small_padding"
@@ -108,7 +108,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/No_connection_img"/>
+            android:src="@drawable/ic_connection_error"/>
 
         <TextView
             android:layout_marginTop="@dimen/small_padding"

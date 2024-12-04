@@ -12,7 +12,7 @@
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="navigationIcon">@drawable/arrow_back_night</item>
+        <item name="navigationIcon">@drawable/arrow_back</item>
     </style>
 
     <style name="MainButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
@@ -48,7 +48,7 @@
     </style>
 
     <style name="SearchLineLayout">
-        <item name="android:background">@drawable/search_background_night</item>
+        <item name="android:background">@drawable/search_background</item>
     </style>
 
     <style name="ClearBtn">
@@ -62,24 +62,8 @@
     <style name="SearchTrackOther">
         <item name="android:textColor">@color/white</item>
     </style>
-
-    <style name="SearchPoint">
-        <item name="android:src">@drawable/ellipse_night</item>
-    </style>
-
-    <style name="SearchArrow">
-        <item name="android:src">@drawable/arrow_forward_night</item>
-    </style>
-
     <style name="No_results_connection_text">
         <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="No_connection_img">
-        <item name="android:src">@drawable/ic_connection_error_night</item>
-    </style>
-    <style name="No_results_img">
-        <item name="android:src">@drawable/ic_no_results_night</item>
     </style>
     <style name="Connection_retry" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:backgroundTint">@color/white</item>
@@ -114,18 +98,4 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textColor">@color/white</item>
     </style>
-
-    <style name="BtnPlay">
-        <item name="android:src">@drawable/button_play_night</item>
-    </style>
-
-    <style name="BtnLike">
-        <item name="android:src">@drawable/button_like_night</item>
-    </style>
-
-    <style name="BtnAddToPlaylist">
-        <item name="android:src">@drawable/button_add_to_playlist_night</item>
-    </style>
-
-
 </resources>

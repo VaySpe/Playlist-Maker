@@ -67,7 +67,7 @@
         android:id="@+id/add_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/BtnAddToPlaylist"
+        android:src="@drawable/button_add_to_playlist"
         android:background="@null"
         app:layout_constraintTop_toBottomOf="@id/audioplayer_trackName"
         app:layout_constraintStart_toStartOf="@id/left_guideline"/>
@@ -77,7 +77,7 @@
         android:id="@+id/like_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/BtnLike"
+        android:src="@drawable/button_like"
         android:background="@null"
         app:layout_constraintTop_toBottomOf="@id/audioplayer_trackName"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"/>
@@ -88,7 +88,7 @@
         android:id="@+id/play_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/BtnPlay"
+        android:src="@drawable/button_play"
         android:background="@null"
         app:layout_constraintTop_toBottomOf="@id/audioplayer_trackName"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
