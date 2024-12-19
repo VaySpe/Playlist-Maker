@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Background">
-        <item name="android:background">@color/background</item>
+        <item name="android:background">@color/YP_Blue</item>
     </style>
     <style name="ToolbarStyle">
         <item name="android:orientation">horizontal</item>
