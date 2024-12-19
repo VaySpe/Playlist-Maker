@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -45,11 +46,14 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     private lateinit var historyRecycler: RecyclerView
     private lateinit var noResultsView: LinearLayout
     private lateinit var errorView: LinearLayout
+    private lateinit var progressBar: ProgressBar
     private lateinit var historyView: LinearLayout
     private lateinit var retryButton: Button
     private val tracks = ArrayList<Track>()
     private val historyTracks = ArrayList<Track>()
     private val handler = Handler(Looper.getMainLooper())
+    private var searchRunnable: Runnable? = null
+    private var isClickAllowed = true
     private lateinit var currentCall: Call<TrackResponse>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +67,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         historyRecycler = findViewById(R.id.tracksListHistory)
         noResultsView = findViewById(R.id.no_results_view)
         errorView = findViewById(R.id.error_view)
+        progressBar = findViewById(R.id.progressBar)
         retryButton = findViewById(R.id.retry_button)
         historyView = findViewById(R.id.history_view)
         queryInput = findViewById(R.id.inputEditText)
@@ -90,7 +95,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             clearHistoryTracks()
         }
 
-        setupSearchActionListener(findViewById(R.id.inputEditText))
+        hideKeyboard(findViewById(R.id.inputEditText))
 
         retryButton.setOnClickListener {
             getTrack(queryInput.text.toString())
@@ -109,7 +114,19 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // empty
+                searchRunnable?.let { handler.removeCallbacks(it)}
+
+                if(s.isNullOrEmpty()){
+                    hideAllViews()
+                    updateHistoryView()
+                    progressBar.isVisible = false
+                    return
+                }
+
+                searchRunnable = Runnable{
+                    performSearch(s.toString())
+                }
+                handler.postDelayed(searchRunnable!!, SEARCH_DEBOUNCE_DELAY)
             }
         }
 
@@ -153,6 +170,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     companion object {
         const val SEARCH_QUERY_KEY = "SEARCH_QUERY_KEY"
         const val EMPTY = ""
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
     private fun hideAllViews() {
@@ -172,10 +191,19 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         return retrofit.create(iTunesApi::class.java)
     }
 
-    private fun setupSearchActionListener(queryInput: EditText) {
+    private fun performSearch(searchRequest: String) {
+        if (searchRequest.isEmpty()) {
+            progressBar.isVisible = false
+            return
+        }
+
+        progressBar.isVisible = true
+        getTrack(searchRequest)
+    }
+
+    private fun hideKeyboard(queryInput: EditText) {
         queryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                getTrack(queryInput.text.toString())
                 val inputMethodManager =
                     getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                 inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
@@ -193,7 +221,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         val timeoutRunnable = Runnable {
             if (::currentCall.isInitialized && currentCall.isExecuted) {
                 currentCall.cancel()
-                errorView.isVisible = true
+                errorView
                 showToast(getString(R.string.request_timed_out))
             }
         }
@@ -204,6 +232,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
                 handler.removeCallbacks(timeoutRunnable)
                 Log.d("TRACK_LOG", "Response code: ${response.code()}")
+                progressBar.isVisible = false
                 if (response.isSuccessful) {
                     val trackResponse = response.body()
                     Log.d("TRACK_LOG", "Raw response: ${response.raw()}")
@@ -221,7 +250,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
                                 collectionName = content.collectionName,
                                 releaseDate = content.releaseDate,
                                 primaryGenreName = content.primaryGenreName,
-                                country = content.country
+                                country = content.country,
+                                previewUrl = content.previewUrl
                             )
                         }
                         tracks.clear()
@@ -290,16 +320,18 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     }
 
     override fun onTrackClick(track: Track) {
-        trackAdapter.selectedTrack = track
-        addTrackToHistory(track)
-        historyTrackAdapter.notifyDataSetChanged()
+        if (clickDebounce()) {
+            trackAdapter.selectedTrack = track
+            addTrackToHistory(track)
+            historyTrackAdapter.notifyDataSetChanged()
 
-        val gson = Gson()
-        val trackJson = gson.toJson(track)
+            val gson = Gson()
+            val trackJson = gson.toJson(track)
 
-        val intent = Intent(this, AudioplayerActivity::class.java)
-        intent.putExtra("track_json", trackJson)
-        startActivity(intent)
+            val intent = Intent(this, AudioplayerActivity::class.java)
+            intent.putExtra("track_json", trackJson)
+            startActivity(intent)
+        }
     }
 
     private fun clearHistoryTracks() {
@@ -317,5 +349,14 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
     private fun updateHistoryView() {
         historyView.isVisible = historyTracks.isNotEmpty() && searchLine.isEmpty()
+    }
+
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
     }
 }

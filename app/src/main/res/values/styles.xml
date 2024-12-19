@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Background">
-        <item name="android:background">@color/background</item>
+        <item name="android:background">@color/YP_Blue</item>
     </style>
     <style name="ToolbarStyle">
         <item name="android:orientation">horizontal</item>
@@ -58,23 +58,8 @@
         <item name="android:textColor">@color/on_search_background</item>
     </style>
 
-    <style name="SearchPoint">
-        <item name="android:src">@drawable/ellipse</item>
-    </style>
-
-    <style name="SearchArrow">
-        <item name="android:src">@drawable/arrow_forward</item>
-    </style>
-
     <style name="No_results_connection_text">
         <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="No_connection_img">
-        <item name="android:src">@drawable/ic_connection_error</item>
-    </style>
-    <style name="No_results_img">
-        <item name="android:src">@drawable/ic_no_results</item>
     </style>
     <style name="Connection_retry" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:backgroundTint">@color/black</item>
@@ -108,18 +93,6 @@
         <item name="android:gravity">end</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="BtnPlay">
-        <item name="android:src">@drawable/button_play</item>
-    </style>
-
-    <style name="BtnLike">
-        <item name="android:src">@drawable/button_like</item>
-    </style>
-
-    <style name="BtnAddToPlaylist">
-        <item name="android:src">@drawable/button_add_to_playlist</item>
     </style>
 
 </resources>

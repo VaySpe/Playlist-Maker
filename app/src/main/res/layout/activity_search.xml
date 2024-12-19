@@ -38,8 +38,8 @@
                 android:padding="@dimen/nvsmall_padding"
                 android:gravity="center_vertical"
                 android:background="@null"
-                android:imeOptions="actionDone"
                 android:singleLine="true"
+                android:textCursorDrawable="@color/YP_Blue"
                 style="@style/SearchLine"/>
 
             <ImageView
@@ -64,6 +64,14 @@
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/big_padding_48"
+        android:layout_height="@dimen/big_padding_48"
+        android:layout_marginTop="140dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/thumb_color_checked"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_marginTop="100dp"
@@ -77,7 +85,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/No_results_img"/>
+            android:src="@drawable/ic_no_results"/>
 
         <TextView
             android:layout_marginTop="@dimen/small_padding"
@@ -101,7 +109,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/No_connection_img"/>
+            android:src="@drawable/ic_connection_error"/>
 
         <TextView
             android:layout_marginTop="@dimen/small_padding"
