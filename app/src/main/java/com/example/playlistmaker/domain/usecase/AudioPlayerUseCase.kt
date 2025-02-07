@@ -1,7 +1,7 @@
 package com.example.playlistmaker.domain.usecase
 
 import com.example.playlistmaker.domain.models.PlayerState
-import com.example.playlistmaker.domain.repository.PlayerRepository
+import com.example.playlistmaker.presentation.library.PlayerRepository
 
 class AudioPlayerUseCase(private val playerRepository: PlayerRepository) {
     suspend fun prepare(previewUrl: String){

@@ -1,4 +1,4 @@
-package com.example.playlistmaker.domain.repository
+package com.example.playlistmaker.presentation.library
 
 import com.example.playlistmaker.domain.models.PlayerState
 
@@ -9,4 +9,5 @@ interface PlayerRepository {
     fun release()
     fun getCurrentPositionMs(): Int
     fun getState(): PlayerState
+    fun setOnCompletionListener(listener: () -> Unit)
 }

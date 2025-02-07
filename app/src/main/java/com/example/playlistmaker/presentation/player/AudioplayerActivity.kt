@@ -38,6 +38,7 @@ class AudioplayerActivity : AppCompatActivity() {
                 handler.postDelayed(this, TRACK_DEBOUNCE_DELAY)
             } else if (audioPlayerUseCase.getState() == PlayerState.PREPARED) {
                 // Принудительно обновляем таймер до конца трека
+                pausePlayer()
                 timerTextView.text = "00:30"
             }
         }

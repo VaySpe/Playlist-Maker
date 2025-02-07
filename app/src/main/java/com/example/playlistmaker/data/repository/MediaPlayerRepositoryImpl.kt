@@ -2,10 +2,8 @@ package com.example.playlistmaker.data.repository
 
 import android.content.Context
 import android.media.MediaPlayer
-import androidx.core.content.ContextCompat
-import com.example.playlistmaker.R
 import com.example.playlistmaker.domain.models.PlayerState
-import com.example.playlistmaker.domain.repository.PlayerRepository
+import com.example.playlistmaker.presentation.library.PlayerRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -16,6 +14,11 @@ class MediaPlayerRepositoryImpl(
 
     private var mediaPlayer: MediaPlayer? = null
     private var playerState: PlayerState = PlayerState.DEFAULT
+    private var onCompletionListener: (() -> Unit)? = null // Храним колбэк
+
+    override fun setOnCompletionListener(listener: () -> Unit) {
+        onCompletionListener = listener
+    }
 
     override suspend fun prepare(previewUrl: String) {
         release() // очищаем предыдущий плеер, если был
