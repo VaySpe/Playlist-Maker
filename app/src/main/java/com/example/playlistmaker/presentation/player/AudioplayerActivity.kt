@@ -36,6 +36,9 @@ class AudioplayerActivity : AppCompatActivity() {
                 val formattedTime = SimpleDateFormat("mm:ss", Locale.getDefault()).format(currentMs)
                 timerTextView.text = formattedTime
                 handler.postDelayed(this, TRACK_DEBOUNCE_DELAY)
+            } else if (audioPlayerUseCase.getState() == PlayerState.PREPARED) {
+                // Принудительно обновляем таймер до конца трека
+                timerTextView.text = "00:30"
             }
         }
     }
@@ -80,7 +83,7 @@ class AudioplayerActivity : AppCompatActivity() {
         yearTextView.text = track.releaseDate.substring(0, 4)
         genreTextView.text = track.primaryGenreName
         countryTextView.text = track.country
-        timerTextView.text = "00:00"
+        timerTextView.text = "00:30"
 
         // Загружаем картинку
         val artworkUrl512 = track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
