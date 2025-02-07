@@ -76,7 +76,7 @@
         android:layout_marginTop="@dimen/vbig_padding_52"
         android:src="@drawable/button_add_to_playlist"
         android:background="@null"
-        app:layout_constraintTop_toBottomOf="@id/audioplayer_trackName"
+        app:layout_constraintTop_toBottomOf="@id/audioplayer_artistName"
         app:layout_constraintStart_toStartOf="@id/left_guideline" />
 
     <ImageButton
@@ -86,7 +86,7 @@
         android:layout_marginTop="@dimen/vbig_padding_52"
         android:src="@drawable/button_like"
         android:background="@null"
-        app:layout_constraintTop_toBottomOf="@id/audioplayer_trackName"
+        app:layout_constraintTop_toBottomOf="@id/audioplayer_artistName"
         app:layout_constraintEnd_toEndOf="@id/right_guideline" />
 
     <ImageButton
@@ -96,7 +96,7 @@
         android:layout_marginTop="@dimen/big_padding_32"
         android:src="@drawable/button_play"
         android:background="@null"
-        app:layout_constraintTop_toBottomOf="@id/audioplayer_trackName"
+        app:layout_constraintTop_toBottomOf="@id/audioplayer_artistName"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintEnd_toEndOf="@id/right_guideline" />
 
@@ -121,6 +121,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:fillViewport="true"
+        android:layout_marginTop="@dimen/big_padding_32"
         app:layout_constraintTop_toBottomOf="@id/audioplayer_timer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
