@@ -4,6 +4,7 @@ import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -53,6 +54,10 @@ class AudioplayerActivity : AppCompatActivity() {
         // 2) Получаем Track из интента
         val trackJson = intent.getStringExtra("track_json") ?: ""
         val track = Gson().fromJson(trackJson, Track::class.java)
+
+        Log.d("AudioplayerActivity", "Received track JSON: $trackJson")
+        Log.d("AudioplayerActivity", "Parsed track object: $track")
+        Log.d("AudioplayerActivity", "Final trackTime: ${track.trackTime}")
 
         // 3) Находим View
         timerTextView = findViewById(R.id.audioplayer_timer)

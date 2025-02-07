@@ -3,7 +3,7 @@ package com.example.playlistmaker.data.dto
 data class TrackDto(
     val trackName: String?,
     val artistName: String?,
-    val trackTime: String?,
+    val trackTimeMillis: Long? = 0L,
     val artworkUrl100: String?,
     val trackId: String?,
     val collectionName: String?,

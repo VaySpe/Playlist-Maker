@@ -1,6 +1,7 @@
 package com.example.playlistmaker.data.repository
 
 import android.icu.text.SimpleDateFormat
+import android.util.Log
 import com.example.playlistmaker.data.storage.LocalStorage
 import com.example.playlistmaker.data.network.ITunesApi
 import com.example.playlistmaker.domain.repository.TracksRepository
@@ -18,10 +19,15 @@ class TracksRepositoryImpl(
 
         // 2) Преобразуем DTO в Domain-модель
         return response.results.map { trackDto ->
+            Log.d("TracksRepositoryImpl", "Raw trackTimeMillis from API: ${trackDto.trackTimeMillis}")
+
+            val convertedTime = convertTrackTime(trackDto.trackTimeMillis)
+            Log.d("TracksRepositoryImpl", "Converted trackTime for UI: $convertedTime")
+
             Track(
                 trackName = trackDto.trackName.orEmpty(),
                 artistName = trackDto.artistName.orEmpty(),
-                trackTime = convertTrackTime(trackDto.trackTime?.toLong()),
+                trackTime = convertedTime,
                 artworkUrl100 = trackDto.artworkUrl100.orEmpty(),
                 trackId = trackDto.trackId.orEmpty(),
                 collectionName = trackDto.collectionName.orEmpty(),
@@ -42,11 +48,15 @@ class TracksRepositoryImpl(
     }
 
     private fun convertTrackTime(timeMillis: Long?): String {
-        // Здесь можно применить SimpleDateFormat или возвращать просто Long
-        // в зависимости от того, нужна ли строка в домене
-        if (timeMillis == null) return ""
-        // Пример форматирования
-        val format = SimpleDateFormat("mm:ss", Locale.getDefault())
-        return format.format(timeMillis)
+        Log.d("TracksRepositoryImpl", "Converting trackTimeMillis: $timeMillis")
+
+        return if (timeMillis != null && timeMillis > 0) {
+            val formattedTime = String.format("%02d:%02d", (timeMillis / 60000), (timeMillis / 1000) % 60)
+            Log.d("TracksRepositoryImpl", "Formatted trackTime: $formattedTime")
+            formattedTime
+        } else {
+            Log.e("TracksRepositoryImpl", "Error: trackTimeMillis is null or 0!")
+            "00:00"
+        }
     }
 }
