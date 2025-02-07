@@ -17,14 +17,14 @@ import com.example.playlistmaker.Creator
 import com.example.playlistmaker.R
 import com.example.playlistmaker.domain.models.PlayerState
 import com.example.playlistmaker.domain.models.Track
-import com.example.playlistmaker.domain.usecase.AudioPlayerUseCase
+import com.example.playlistmaker.domain.usecase.AudioPlayerImpl
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 class AudioplayerActivity : AppCompatActivity() {
 
-    private lateinit var audioPlayerUseCase: AudioPlayerUseCase
+    private lateinit var audioPlayerUseCase: AudioPlayerImpl
 
     private lateinit var playBtn: ImageButton
     private lateinit var timerTextView: TextView

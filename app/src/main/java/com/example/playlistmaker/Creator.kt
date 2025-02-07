@@ -62,23 +62,23 @@ object Creator {
         return SearchTracksUseCase(tracksRepository)
     }
 
-    fun provideHistoryUseCase(): HistoryUseCase {
-        return HistoryUseCase(tracksRepository)
+    fun provideHistoryUseCase(): HistoryImpl {
+        return HistoryImpl(tracksRepository)
     }
 
     // ------------------ Audio Player ------------------
     private val mediaPlayerRepository by lazy {
         MediaPlayerRepositoryImpl(appContext)
     }
-    fun provideAudioPlayerUseCase(): AudioPlayerUseCase {
-        return AudioPlayerUseCase(mediaPlayerRepository)
+    fun provideAudioPlayerUseCase(): AudioPlayerImpl {
+        return AudioPlayerImpl(mediaPlayerRepository)
     }
 
     // ------------------ Theme UseCase ------------------
     private val themeUseCase by lazy {
-        ThemeUseCase(themeRepository)
+        ThemeImpl(themeRepository)
     }
-    fun provideThemeUseCase(): ThemeUseCase {
+    fun provideThemeUseCase(): ThemeImpl {
         return themeUseCase
     }
 }

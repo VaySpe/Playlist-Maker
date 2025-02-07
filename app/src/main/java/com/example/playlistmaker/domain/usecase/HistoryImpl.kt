@@ -3,14 +3,14 @@ package com.example.playlistmaker.domain.usecase
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.domain.repository.TracksRepository
 
-class HistoryUseCase(
+class HistoryImpl(
     private val repository: TracksRepository
-) {
-    fun getHistory(): List<Track> {
+): HistoryInteract {
+    override fun getHistory(): List<Track> {
         return repository.getHistory()
     }
 
-    fun addTrackToHistory(track: Track) {
+    override fun addTrackToHistory(track: Track) {
         val current = repository.getHistory().toMutableList()
         // 1. Удаляем, если трек уже есть
         current.removeAll { it.trackId == track.trackId }
@@ -24,7 +24,7 @@ class HistoryUseCase(
         repository.saveHistory(current)
     }
 
-    fun clearHistory() {
+    override fun clearHistory() {
         repository.saveHistory(emptyList())
     }
 

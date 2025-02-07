@@ -9,12 +9,12 @@ import androidx.core.content.ContextCompat
 import com.example.playlistmaker.App
 import com.example.playlistmaker.Creator
 import com.example.playlistmaker.R
-import com.example.playlistmaker.domain.usecase.ThemeUseCase
+import com.example.playlistmaker.domain.usecase.ThemeImpl
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var themeUseCase: ThemeUseCase
+    private lateinit var themeUseCase: ThemeImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

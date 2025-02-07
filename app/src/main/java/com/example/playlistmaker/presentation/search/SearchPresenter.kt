@@ -2,7 +2,7 @@ package com.example.playlistmaker.presentation.search
 
 import android.os.Handler
 import android.os.Looper
-import com.example.playlistmaker.domain.usecase.HistoryUseCase
+import com.example.playlistmaker.domain.usecase.HistoryImpl
 import com.example.playlistmaker.domain.usecase.SearchTracksUseCase
 import com.example.playlistmaker.domain.models.Track
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 
 class SearchPresenter(
     private val searchUseCase: SearchTracksUseCase,
-    private val historyUseCase: HistoryUseCase
+    private val historyUseCase: HistoryImpl
 ) {
     private val handler = Handler(Looper.getMainLooper())
     private var searchRunnable: Runnable? = null

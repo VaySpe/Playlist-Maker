@@ -3,28 +3,28 @@ package com.example.playlistmaker.domain.usecase
 import com.example.playlistmaker.domain.models.PlayerState
 import com.example.playlistmaker.presentation.library.PlayerRepository
 
-class AudioPlayerUseCase(private val playerRepository: PlayerRepository) {
-    suspend fun prepare(previewUrl: String){
+class AudioPlayerImpl(private val playerRepository: PlayerRepository): AudioPlayerInteract {
+    override suspend fun prepare(previewUrl: String){
         playerRepository.prepare(previewUrl)
     }
 
-    fun play(){
+    override fun play(){
         playerRepository.play()
     }
 
-    fun pause() {
+    override fun pause() {
         playerRepository.pause()
     }
 
-    fun release() {
+    override fun release() {
         playerRepository.release()
     }
 
-    fun getCurrentPositionMs(): Int {
+    override fun getCurrentPositionMs(): Int {
         return playerRepository.getCurrentPositionMs()
     }
 
-    fun getState(): PlayerState {
+    override fun getState(): PlayerState {
         return playerRepository.getState()
     }
 }
