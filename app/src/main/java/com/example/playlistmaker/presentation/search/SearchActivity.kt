@@ -131,7 +131,12 @@ class SearchActivity : AppCompatActivity() {
                     updateHistoryView()
                     progressBar.isVisible = false
                 } else {
-                    // Debounce
+                    // Скрываем историю и кнопку очистки истории
+                    historyView.isVisible = false
+                    clearHistoryButton.isVisible = false
+                    historyRecycler.isVisible = false
+
+                    // Debounce для поиска
                     searchRunnable = Runnable {
                         performSearch(s.toString())
                     }
@@ -206,8 +211,13 @@ class SearchActivity : AppCompatActivity() {
 
     private fun updateHistoryView() {
         val history = historyUseCase.getHistory()
-        historyView.isVisible = history.isNotEmpty() && inputEditText.text.isEmpty()
-        if (history.isNotEmpty()) {
+        val shouldShowHistory = history.isNotEmpty() && inputEditText.text.isEmpty()
+
+        historyView.isVisible = shouldShowHistory
+        clearHistoryButton.isVisible = shouldShowHistory
+        historyRecycler.isVisible = shouldShowHistory
+
+        if (shouldShowHistory) {
             historyTrackAdapter.setData(history)
         }
     }
