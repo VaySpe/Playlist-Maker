@@ -1,23 +1,24 @@
 package com.example.playlistmaker.data.repository
 
-import android.icu.text.SimpleDateFormat
 import android.util.Log
-import com.example.playlistmaker.data.storage.LocalStorage
 import com.example.playlistmaker.data.network.ITunesApi
-import com.example.playlistmaker.domain.repository.TracksRepository
+import com.example.playlistmaker.data.storage.LocalStorage
 import com.example.playlistmaker.domain.models.Track
+import com.example.playlistmaker.domain.repository.TracksRepository
+import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TracksRepositoryImpl(
     private val iTunesApi: ITunesApi,
-    private val localStorage: LocalStorage // условный интерфейс для SharedPreferences
+    private val localStorage: LocalStorage
 ) : TracksRepository {
 
+    // Кэшируем SimpleDateFormat, чтобы не создавать его на каждый вызов
+    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+
     override suspend fun searchTracks(query: String): List<Track> {
-        // 1) Вызываем сетевой метод
         val response = iTunesApi.search(query)
 
-        // 2) Преобразуем DTO в Domain-модель
         return response.results.map { trackDto ->
             Log.d("TracksRepositoryImpl", "Raw trackTimeMillis from API: ${trackDto.trackTimeMillis}")
 
@@ -51,7 +52,7 @@ class TracksRepositoryImpl(
         Log.d("TracksRepositoryImpl", "Converting trackTimeMillis: $timeMillis")
 
         return if (timeMillis != null && timeMillis > 0) {
-            val formattedTime = String.format("%02d:%02d", (timeMillis / 60000), (timeMillis / 1000) % 60)
+            val formattedTime = dateFormat.format(timeMillis)
             Log.d("TracksRepositoryImpl", "Formatted trackTime: $formattedTime")
             formattedTime
         } else {

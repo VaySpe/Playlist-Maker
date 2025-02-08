@@ -223,8 +223,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun navigateToPlayer(track: Track) {
-        val gson = Gson()
-        val trackJson = gson.toJson(track)
+        val trackJson = Creator.gson.toJson(track)
         val intent = Intent(this, AudioplayerActivity::class.java)
         intent.putExtra("track_json", trackJson)
         startActivity(intent)

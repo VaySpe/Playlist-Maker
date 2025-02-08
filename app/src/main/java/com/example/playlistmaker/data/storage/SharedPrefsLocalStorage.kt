@@ -2,8 +2,8 @@ package com.example.playlistmaker.data.storage
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.playlistmaker.Creator
 import com.example.playlistmaker.domain.models.Track
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class SharedPrefsLocalStorage(context: Context) : LocalStorage {
@@ -19,11 +19,11 @@ class SharedPrefsLocalStorage(context: Context) : LocalStorage {
     override fun loadHistory(): List<Track> {
         val json = sharedPrefs.getString(HISTORY_KEY, null) ?: return emptyList()
         val type = object : TypeToken<List<Track>>() {}.type
-        return Gson().fromJson(json, type)
+        return Creator.gson.fromJson(json, type) // Используем кешированный Gson
     }
 
     override fun saveHistory(history: List<Track>) {
-        val json = Gson().toJson(history)
+        val json = Creator.gson.toJson(history) // Используем кешированный Gson
         sharedPrefs.edit()
             .putString(HISTORY_KEY, json)
             .apply()

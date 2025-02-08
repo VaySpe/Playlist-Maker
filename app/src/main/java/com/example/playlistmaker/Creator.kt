@@ -11,17 +11,20 @@ import com.example.playlistmaker.data.storage.SharedPrefsLocalStorage
 import com.example.playlistmaker.domain.repository.ThemeRepository
 import com.example.playlistmaker.domain.repository.TracksRepository
 import com.example.playlistmaker.domain.usecase.*
+import com.google.gson.Gson
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object Creator {
-
+    private val dpToPxUseCase by lazy { DpToPxUseCase() }
     private lateinit var appContext: Application
 
-    // Вызываем из App.onCreate()
     fun init(application: Application) {
         appContext = application
     }
+
+    // ------------------ Gson ------------------
+    val gson: Gson by lazy { Gson() }
 
     // ------------------ Retrofit ------------------
     private val iTunesApi: ITunesApi by lazy {
@@ -50,9 +53,6 @@ object Creator {
     private const val DARK_MODE_KEY = "key_for_dark_mode"
 
     private val themeRepository: ThemeRepository by lazy {
-        // Если хотите использовать тот же SharedPrefs, что и для локального хранения,
-        // можно передать (localStorage as SharedPrefsLocalStorage).sharedPrefs
-        // Но здесь для наглядности берём новый:
         val sharedPrefs = appContext.getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, Context.MODE_PRIVATE)
         ThemeRepositoryImpl(sharedPrefs, DARK_MODE_KEY)
     }
@@ -67,18 +67,21 @@ object Creator {
     }
 
     // ------------------ Audio Player ------------------
-    private val mediaPlayerRepository by lazy {
-        MediaPlayerRepositoryImpl(appContext)
-    }
     fun provideAudioPlayerUseCase(): AudioPlayerImpl {
-        return AudioPlayerImpl(mediaPlayerRepository)
+        return AudioPlayerImpl(MediaPlayerRepositoryImpl(appContext))
     }
 
     // ------------------ Theme UseCase ------------------
     private val themeUseCase by lazy {
         ThemeImpl(themeRepository)
     }
+
     fun provideThemeUseCase(): ThemeImpl {
         return themeUseCase
+    }
+
+    // ------------------ DpToPx UseCase ------------------
+    fun provideDpToPxUseCase(): DpToPxUseCase {
+        return dpToPxUseCase
     }
 }

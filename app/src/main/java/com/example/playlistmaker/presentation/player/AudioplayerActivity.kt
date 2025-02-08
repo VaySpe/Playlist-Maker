@@ -25,7 +25,7 @@ import java.util.Locale
 class AudioplayerActivity : AppCompatActivity() {
 
     private lateinit var audioPlayerUseCase: AudioPlayerImpl
-
+    private val dpToPxUseCase = Creator.provideDpToPxUseCase()
     private lateinit var playBtn: ImageButton
     private lateinit var timerTextView: TextView
     private val handler = Handler(Looper.getMainLooper())
@@ -92,7 +92,7 @@ class AudioplayerActivity : AppCompatActivity() {
             .load(artworkUrl512)
             .placeholder(R.drawable.placeholder)
             .centerCrop()
-            .transform(RoundedCorners(8))
+            .transform(RoundedCorners(dpToPxUseCase.execute(8f)))
             .into(imageView)
 
         // 5) Подготовка плеера
