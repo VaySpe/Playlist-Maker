@@ -1,34 +1,36 @@
 package com.example.playlistmaker
 
 import android.app.Application
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.app.AppCompatDelegate.getDefaultNightMode
+import com.example.playlistmaker.domain.usecase.ThemeInteract
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 
 class App : Application() {
 
     var darkTheme = false
-    private lateinit var sharedPreferencesMode: SharedPreferences
+    private lateinit var themeUseCase: ThemeInteract
+
+    // 1) Делаем appScope полем (val), а не локальной переменной
+    val appScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun onCreate() {
         super.onCreate()
-        sharedPreferencesMode = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
+        Creator.init(this)
 
-        darkTheme = sharedPreferencesMode.getBoolean(
-            DARK_MODE_KEY,
-            getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO
-        )
-        switchTheme(darkTheme)
+        // 2) Инициализируем UseCase для работы с темой
+        themeUseCase = Creator.provideThemeUseCase()
+
+        // 3) Устанавливаем тему при старте
+        switchTheme(themeUseCase.isDarkModeEnabled())
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
         darkTheme = darkThemeEnabled
         AppCompatDelegate.setDefaultNightMode(
-            if (darkThemeEnabled) {
-                AppCompatDelegate.MODE_NIGHT_YES
-            } else {
-                AppCompatDelegate.MODE_NIGHT_NO
-            }
+            if (darkThemeEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
         )
     }
 }

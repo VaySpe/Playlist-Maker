@@ -1,16 +1,11 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.domain.models
 
-data class TrackResponse(
-    val resultCount: Int,
-    val results: List<Content>
-)
-
-data class Content(
+data class Track(
     val trackName: String,
     val artistName: String,
-    val trackTimeMillis: Int,
+    val trackTime: String,
     val artworkUrl100: String,
-    val trackId: Int,
+    val trackId: String,
     val collectionName: String,
     val releaseDate: String,
     val primaryGenreName: String,

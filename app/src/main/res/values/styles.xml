@@ -86,7 +86,7 @@
     <style name="ValueTextView">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingVertical">@dimen/vsmall_padding_4</item>
+        <item name="android:paddingVertical">@dimen/vsmall_padding</item>
         <item name="android:textSize">@dimen/medium_text</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
