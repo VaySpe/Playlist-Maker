@@ -25,4 +25,5 @@
     <string name="label_year">Год</string>
     <string name="label_genre">Жанр</string>
     <string name="label_country">Страна</string>
+    <string name="full_track_time">00:30</string>
 </resources>

@@ -39,7 +39,7 @@ class AudioplayerActivity : AppCompatActivity() {
             } else if (audioPlayerUseCase.getState() == PlayerState.PREPARED) {
                 // Принудительно обновляем таймер до конца трека
                 pausePlayer()
-                timerTextView.text = "00:30"
+                timerTextView.text = getString(R.string.full_track_time)
             }
         }
     }
@@ -84,7 +84,7 @@ class AudioplayerActivity : AppCompatActivity() {
         yearTextView.text = track.releaseDate.substring(0, 4)
         genreTextView.text = track.primaryGenreName
         countryTextView.text = track.country
-        timerTextView.text = "00:30"
+        timerTextView.text = getString(R.string.full_track_time)
 
         // Загружаем картинку
         val artworkUrl512 = track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
