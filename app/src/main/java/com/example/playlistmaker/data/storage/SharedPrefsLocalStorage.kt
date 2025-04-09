@@ -2,7 +2,7 @@ package com.example.playlistmaker.data.storage
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.playlistmaker.Creator
+import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.domain.models.Track
 import com.google.gson.reflect.TypeToken
 

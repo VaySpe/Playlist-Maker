@@ -1,16 +1,21 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.creator
 
 import android.app.Application
 import android.content.Context
 import com.example.playlistmaker.data.network.ITunesApi
 import com.example.playlistmaker.data.repository.MediaPlayerRepositoryImpl
-import com.example.playlistmaker.data.repository.ThemeRepositoryImpl
+import com.example.playlistmaker.settings.data.ThemeRepositoryImpl
 import com.example.playlistmaker.data.repository.TracksRepositoryImpl
 import com.example.playlistmaker.data.storage.LocalStorage
 import com.example.playlistmaker.data.storage.SharedPrefsLocalStorage
-import com.example.playlistmaker.domain.repository.ThemeRepository
+import com.example.playlistmaker.settings.domain.ThemeRepository
 import com.example.playlistmaker.domain.repository.TracksRepository
 import com.example.playlistmaker.domain.usecase.*
+import com.example.playlistmaker.settings.domain.ThemeImpl
+import com.example.playlistmaker.settings.domain.ThemeInteract
+import com.example.playlistmaker.settings.ui.SettingsViewModel
+import com.example.playlistmaker.sharing.data.SharingInteractorImpl
+import com.example.playlistmaker.sharing.domain.SharingInteractor
 import com.google.gson.Gson
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -84,4 +89,24 @@ object Creator {
     fun provideDpToPxUseCase(): DpToPxUseCase {
         return dpToPxUseCase
     }
+
+    fun provideSettingsViewModel(): SettingsViewModel {
+        return SettingsViewModel(
+            provideThemeInteractor(),
+            provideSharingInteractor()
+        )
+    }
+
+
+
+    fun provideThemeInteractor(): ThemeInteract {
+        return ThemeImpl(themeRepository)
+    }
+
+    private val sharingInteractor: SharingInteractor by lazy {
+        SharingInteractorImpl(appContext)
+    }
+
+    fun provideSharingInteractor(): SharingInteractor = sharingInteractor
+
 }

@@ -1,8 +1,8 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.creator
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlistmaker.domain.usecase.ThemeInteract
+import com.example.playlistmaker.settings.domain.ThemeInteract
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

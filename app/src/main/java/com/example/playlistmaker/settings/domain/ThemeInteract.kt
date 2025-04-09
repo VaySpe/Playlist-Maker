@@ -1,6 +1,6 @@
-package com.example.playlistmaker.domain.repository
+package com.example.playlistmaker.settings.domain
 
-interface ThemeRepository {
+interface ThemeInteract {
     fun isDarkModeEnabled(): Boolean
     fun setDarkModeEnabled(enabled: Boolean)
 }

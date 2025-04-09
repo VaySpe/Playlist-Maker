@@ -1,6 +1,4 @@
-package com.example.playlistmaker.domain.usecase
-
-import com.example.playlistmaker.domain.repository.ThemeRepository
+package com.example.playlistmaker.settings.domain
 
 class ThemeImpl(private val themeRepository: ThemeRepository): ThemeInteract {
 
