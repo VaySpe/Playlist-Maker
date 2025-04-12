@@ -2,6 +2,9 @@ package com.example.playlistmaker.creator
 
 import android.app.Application
 import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.playlistmaker.R
 import com.example.playlistmaker.data.network.ITunesApi
 import com.example.playlistmaker.player.data.MediaPlayerRepositoryImpl
 import com.example.playlistmaker.settings.data.ThemeRepositoryImpl
@@ -12,6 +15,7 @@ import com.example.playlistmaker.settings.domain.ThemeRepository
 import com.example.playlistmaker.domain.repository.TracksRepository
 import com.example.playlistmaker.domain.usecase.*
 import com.example.playlistmaker.player.domain.AudioPlayerImpl
+import com.example.playlistmaker.player.ui.PlayerViewModel
 import com.example.playlistmaker.settings.domain.ThemeImpl
 import com.example.playlistmaker.settings.domain.ThemeInteract
 import com.example.playlistmaker.settings.ui.SettingsViewModel
@@ -110,4 +114,16 @@ object Creator {
 
     fun provideSharingInteractor(): SharingInteractor = sharingInteractor
 
+    fun providePlayerViewModelFactory(context: Context): ViewModelProvider.Factory {
+        val audioPlayer = provideAudioPlayerUseCase()
+        val history = provideHistoryUseCase()
+        // Берём значение длительности preview из strings.xml (например, "00:30")
+        val timerText = context.getString(R.string.full_track_time)
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return PlayerViewModel(audioPlayer, history, timerText) as T
+            }
+        }
+    }
 }

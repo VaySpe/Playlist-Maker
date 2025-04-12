@@ -2,12 +2,12 @@ package com.example.playlistmaker.player.domain
 
 import com.example.playlistmaker.presentation.library.PlayerRepository
 
-class AudioPlayerImpl(private val playerRepository: PlayerRepository): AudioPlayerInteract {
-    override suspend fun prepare(previewUrl: String){
+class AudioPlayerImpl(private val playerRepository: PlayerRepository) : AudioPlayerInteract {
+    override suspend fun prepare(previewUrl: String) {
         playerRepository.prepare(previewUrl)
     }
 
-    override fun play(){
+    override fun play() {
         playerRepository.play()
     }
 
@@ -25,5 +25,9 @@ class AudioPlayerImpl(private val playerRepository: PlayerRepository): AudioPlay
 
     override fun getState(): PlayerState {
         return playerRepository.getState()
+    }
+
+    override fun setOnCompletionListener(listener: () -> Unit) {
+        playerRepository.setOnCompletionListener(listener)
     }
 }

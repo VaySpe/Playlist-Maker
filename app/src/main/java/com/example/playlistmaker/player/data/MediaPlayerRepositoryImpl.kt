@@ -29,7 +29,7 @@ class MediaPlayerRepositoryImpl(
             }
             setOnCompletionListener {
                 playerState = PlayerState.PREPARED
-                // Можно сбросить позицию, если нужно
+                onCompletionListener?.invoke()
             }
             prepareAsync()
         }
