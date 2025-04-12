@@ -1,6 +1,5 @@
-package com.example.playlistmaker.domain.usecase
+package com.example.playlistmaker.player.domain
 
-import com.example.playlistmaker.domain.models.PlayerState
 import com.example.playlistmaker.presentation.library.PlayerRepository
 
 class AudioPlayerImpl(private val playerRepository: PlayerRepository): AudioPlayerInteract {

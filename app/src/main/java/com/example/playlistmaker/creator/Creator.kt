@@ -3,7 +3,7 @@ package com.example.playlistmaker.creator
 import android.app.Application
 import android.content.Context
 import com.example.playlistmaker.data.network.ITunesApi
-import com.example.playlistmaker.data.repository.MediaPlayerRepositoryImpl
+import com.example.playlistmaker.player.data.MediaPlayerRepositoryImpl
 import com.example.playlistmaker.settings.data.ThemeRepositoryImpl
 import com.example.playlistmaker.data.repository.TracksRepositoryImpl
 import com.example.playlistmaker.data.storage.LocalStorage
@@ -11,6 +11,7 @@ import com.example.playlistmaker.data.storage.SharedPrefsLocalStorage
 import com.example.playlistmaker.settings.domain.ThemeRepository
 import com.example.playlistmaker.domain.repository.TracksRepository
 import com.example.playlistmaker.domain.usecase.*
+import com.example.playlistmaker.player.domain.AudioPlayerImpl
 import com.example.playlistmaker.settings.domain.ThemeImpl
 import com.example.playlistmaker.settings.domain.ThemeInteract
 import com.example.playlistmaker.settings.ui.SettingsViewModel

@@ -1,8 +1,8 @@
-package com.example.playlistmaker.data.repository
+package com.example.playlistmaker.player.data
 
 import android.content.Context
 import android.media.MediaPlayer
-import com.example.playlistmaker.domain.models.PlayerState
+import com.example.playlistmaker.player.domain.PlayerState
 import com.example.playlistmaker.presentation.library.PlayerRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume

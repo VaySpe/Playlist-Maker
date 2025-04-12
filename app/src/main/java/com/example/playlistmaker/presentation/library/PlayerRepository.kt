@@ -1,6 +1,6 @@
 package com.example.playlistmaker.presentation.library
 
-import com.example.playlistmaker.domain.models.PlayerState
+import com.example.playlistmaker.player.domain.PlayerState
 
 interface PlayerRepository {
     suspend fun prepare(previewUrl: String)

@@ -1,6 +1,4 @@
-package com.example.playlistmaker.domain.usecase
-
-import com.example.playlistmaker.domain.models.PlayerState
+package com.example.playlistmaker.player.domain
 
 interface AudioPlayerInteract {
     suspend fun prepare(previewUrl: String)
