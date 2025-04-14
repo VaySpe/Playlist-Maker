@@ -4,26 +4,42 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.playlistmaker.settings.domain.ThemeInteract
-import com.example.playlistmaker.sharing.domain.SharingInteractor
 
 class SettingsViewModel(
-    private val themeInteractor: ThemeInteract,
-    private val sharingInteractor: SharingInteractor
+    private val themeInteract: ThemeInteract
 ) : ViewModel() {
 
-    fun shareApp() = sharingInteractor.shareApp()
-    fun openSupport() = sharingInteractor.openSupport()
-    fun openTerms() = sharingInteractor.openTerms()
+    private val _screenState = MutableLiveData<SettingsScreenState>()
+    val screenState: LiveData<SettingsScreenState> = _screenState
 
-    private val _darkThemeEnabled = MutableLiveData<Boolean>()
-    val darkThemeEnabled: LiveData<Boolean> = _darkThemeEnabled
+    private val _events = MutableLiveData<SettingsEvent?>()
+    val events: LiveData<SettingsEvent?> = _events
 
     fun loadTheme() {
-        _darkThemeEnabled.value = themeInteractor.isDarkModeEnabled()
+        _screenState.value = SettingsScreenState(
+            isDarkTheme = themeInteract.isDarkModeEnabled()
+        )
     }
 
-    fun switchTheme(enabled: Boolean) {
-        themeInteractor.setDarkModeEnabled(enabled)
-        _darkThemeEnabled.value = enabled
+    fun switchTheme(isDark: Boolean) {
+        themeInteract.setDarkModeEnabled(isDark)
+        _screenState.value = _screenState.value?.copy(isDarkTheme = isDark)
+            ?: SettingsScreenState(isDarkTheme = isDark)
+    }
+
+    fun shareApp() {
+        _events.value = SettingsEvent.ShareApp
+    }
+
+    fun openSupport() {
+        _events.value = SettingsEvent.OpenSupport
+    }
+
+    fun openTerms() {
+        _events.value = SettingsEvent.OpenTerms
+    }
+
+    fun onEventHandled() {
+        _events.value = null
     }
 }

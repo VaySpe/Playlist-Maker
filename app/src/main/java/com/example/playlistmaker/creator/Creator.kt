@@ -15,7 +15,7 @@ import com.example.playlistmaker.settings.domain.ThemeRepository
 import com.example.playlistmaker.search.domain.TracksRepository
 import com.example.playlistmaker.player.domain.AudioPlayerImpl
 import com.example.playlistmaker.player.ui.PlayerViewModel
-import com.example.playlistmaker.search.domain.DpToPxUseCase
+import com.example.playlistmaker.search.ui.DpToPxUseCase
 import com.example.playlistmaker.search.domain.HistoryImpl
 import com.example.playlistmaker.search.domain.SearchTracksUseCase
 import com.example.playlistmaker.search.ui.SearchViewModel
@@ -101,7 +101,6 @@ object Creator {
     fun provideSettingsViewModel(): SettingsViewModel {
         return SettingsViewModel(
             provideThemeInteractor(),
-            provideSharingInteractor()
         )
     }
 

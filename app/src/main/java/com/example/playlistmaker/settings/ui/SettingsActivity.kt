@@ -4,12 +4,11 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.playlistmaker.R
 import com.example.playlistmaker.creator.App
 import com.example.playlistmaker.creator.Creator
-import com.example.playlistmaker.R
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
 
@@ -23,20 +22,49 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        // UI ссылки
+        // Получаем ссылки на UI элементы
         val backSettingsBtn = findViewById<androidx.appcompat.widget.Toolbar>(R.id.settings_back)
         val shareBtn = findViewById<MaterialTextView>(R.id.share)
         val supportBtn = findViewById<MaterialTextView>(R.id.support)
         val docBtn = findViewById<MaterialTextView>(R.id.doc)
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
 
-        // Подписка на LiveData
-        viewModel.darkThemeEnabled.observe(this) { isDark ->
-            themeSwitcher.isChecked = isDark
-            (applicationContext as App).switchTheme(isDark)
+        // Подписка на агрегированное состояние экрана (SettingsScreenState)
+        viewModel.screenState.observe(this) { state ->
+            themeSwitcher.isChecked = state.isDarkTheme
+            // Применяем тему через Application – здесь допустимо так вызвать метод из App
+            (applicationContext as App).switchTheme(state.isDarkTheme)
         }
 
-        // Загрузка текущей темы
+        // Подписка на события (одноразовые, через SettingsEvent)
+        viewModel.events.observe(this) { event ->
+            when (event) {
+                SettingsEvent.ShareApp -> {
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, getString(R.string.share_url))
+                    }
+                    startActivity(intent)
+                }
+                SettingsEvent.OpenSupport -> {
+                    val intent = Intent(Intent.ACTION_SENDTO).apply {
+                        data = Uri.parse("mailto:")
+                        putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail)))
+                        putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_theme))
+                        putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_message))
+                    }
+                    startActivity(intent)
+                }
+                SettingsEvent.OpenTerms -> {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.doc_url)))
+                    startActivity(intent)
+                }
+                null -> { }
+            }
+            viewModel.onEventHandled()
+        }
+
+        // Загрузка текущего состояния темы
         viewModel.loadTheme()
 
         // Переключатель
@@ -44,25 +72,15 @@ class SettingsActivity : AppCompatActivity() {
             viewModel.switchTheme(isChecked)
         }
 
-        // Назад
-        backSettingsBtn.setOnClickListener { finish() }
+        // Обработчик кнопки "Назад"
+        backSettingsBtn.setNavigationOnClickListener { finish() }
 
-        // Share
-        shareBtn.setOnClickListener {
-            viewModel.shareApp()
-        }
+        // Обработчики кнопок событий
+        shareBtn.setOnClickListener { viewModel.shareApp() }
+        supportBtn.setOnClickListener { viewModel.openSupport() }
+        docBtn.setOnClickListener { viewModel.openTerms() }
 
-        // Support
-        supportBtn.setOnClickListener {
-            viewModel.openSupport()
-        }
-
-        // Docs
-        docBtn.setOnClickListener {
-            viewModel.openTerms()
-        }
-
-        // Цвета свитчера (если используешь)
+        // Дополнительная настройка цветов переключателя (если требуется)
         val states = arrayOf(
             intArrayOf(android.R.attr.state_checked),
             intArrayOf(-android.R.attr.state_checked)

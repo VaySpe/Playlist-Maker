@@ -12,7 +12,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
@@ -21,6 +20,11 @@ import com.example.playlistmaker.player.ui.AudioplayerActivity
 
 class SearchActivity : AppCompatActivity() {
 
+    private val viewModel: SearchViewModel by viewModels {
+        Creator.provideSearchViewModelFactory(this)
+    }
+
+    // UI
     private lateinit var inputEditText: EditText
     private lateinit var clearButton: ImageView
     private lateinit var clearHistoryButton: Button
@@ -35,10 +39,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var historyTrackAdapter: TrackAdapter
 
-    private val viewModel: SearchViewModel by viewModels {
-        Creator.provideSearchViewModelFactory(this)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -46,9 +46,9 @@ class SearchActivity : AppCompatActivity() {
         bindViews()
         setupRecyclerViews()
         setupListeners()
-        observeViewModel()
+        observeScreenState()
 
-        viewModel.loadHistoryIfEmptyQuery("")
+        viewModel.loadHistoryIfEmptyQuery()
         hideKeyboardOnDoneAction()
     }
 
@@ -64,7 +64,7 @@ class SearchActivity : AppCompatActivity() {
         retryButton = findViewById(R.id.retry_button)
         historyView = findViewById(R.id.history_view)
 
-        findViewById<Toolbar>(R.id.search_back).setOnClickListener {
+        findViewById<Toolbar>(R.id.search_back).setNavigationOnClickListener {
             finish()
         }
     }
@@ -99,66 +99,48 @@ class SearchActivity : AppCompatActivity() {
         }
 
         inputEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.onQueryChanged(s.toString())
             }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {}
         })
     }
 
-    private fun observeViewModel() {
-        viewModel.isLoading.observe(this) { loading ->
-            progressBar.isVisible = loading
+    private fun observeScreenState() {
+        viewModel.screenState.observe(this) { state ->
 
-            if (loading) {
-                // При загрузке скрываем всё остальное
-                recycler.isVisible = false
-                errorView.isVisible = false
-                noResultsView.isVisible = false
-                historyView.isVisible = false
-            }
-        }
+            // Прогресс
+            progressBar.isVisible = state.isLoading
 
-        viewModel.searchResults.observe(this) { results ->
-            recycler.isVisible = results.isNotEmpty()
-            trackAdapter.setData(results)
-        }
+            // Поиск
+            recycler.isVisible = state.searchResults.isNotEmpty()
+            trackAdapter.setData(state.searchResults)
 
-        viewModel.showNoResults.observe(this) { show ->
-            noResultsView.isVisible = show
-        }
+            // Ошибка / пусто
+            noResultsView.isVisible = state.errorMessage == "Ничего не найдено"
+            errorView.isVisible = state.errorMessage != null &&
+                    state.errorMessage != "Ничего не найдено"
 
-        viewModel.errorMessage.observe(this) { error ->
-            errorView.isVisible = !error.isNullOrEmpty()
-            if (!error.isNullOrEmpty()) showToast("Ошибка: $error")
-        }
+            // История
+            val showHistory = state.history.isNotEmpty() && state.query.isEmpty()
+            historyView.isVisible = showHistory
+            clearHistoryButton.isVisible = showHistory
+            historyRecycler.isVisible = showHistory
+            historyTrackAdapter.setData(state.history)
 
-        viewModel.history.observe(this) { history ->
-            val shouldShow = history.isNotEmpty() && inputEditText.text.isEmpty()
-            historyView.isVisible = shouldShow
-            clearHistoryButton.isVisible = shouldShow
-            historyRecycler.isVisible = shouldShow
-            historyTrackAdapter.setData(history)
-        }
+            // Кнопка очистки
+            clearButton.isVisible = state.query.isNotEmpty()
 
-        viewModel.showClearButton.observe(this) { show ->
-            clearButton.isVisible = show
-        }
-
-        viewModel.navigateToPlayer.observe(this) { track ->
-            track?.let {
-                val trackJson = Creator.gson.toJson(it)
+            // Навигация
+            state.navigateTo?.let {
                 val intent = Intent(this, AudioplayerActivity::class.java)
-                intent.putExtra("track_json", trackJson)
+                intent.putExtra("track_json", Creator.gson.toJson(it))
                 startActivity(intent)
                 viewModel.onNavigationHandled()
             }
         }
-    }
-
-    private fun showToast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun hideKeyboardOnDoneAction() {
@@ -166,14 +148,16 @@ class SearchActivity : AppCompatActivity() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 hideKeyboard()
                 true
-            } else {
-                false
-            }
+            } else false
         }
     }
 
     private fun hideKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(inputEditText.windowToken, 0)
+    }
+
+    private fun showToast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }
