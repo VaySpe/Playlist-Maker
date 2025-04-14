@@ -3,7 +3,7 @@ package com.example.playlistmaker.player.data
 import android.content.Context
 import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.PlayerState
-import com.example.playlistmaker.presentation.library.PlayerRepository
+import com.example.playlistmaker.player.ui.PlayerRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException

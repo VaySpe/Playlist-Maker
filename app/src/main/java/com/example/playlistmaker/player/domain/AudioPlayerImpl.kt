@@ -1,6 +1,6 @@
 package com.example.playlistmaker.player.domain
 
-import com.example.playlistmaker.presentation.library.PlayerRepository
+import com.example.playlistmaker.player.ui.PlayerRepository
 
 class AudioPlayerImpl(private val playerRepository: PlayerRepository) : AudioPlayerInteract {
     override suspend fun prepare(previewUrl: String) {

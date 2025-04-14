@@ -1,6 +1,6 @@
-package com.example.playlistmaker.data.storage
+package com.example.playlistmaker.search.data
 
-import com.example.playlistmaker.domain.models.Track
+import com.example.playlistmaker.search.domain.Track
 
 interface LocalStorage {
     fun loadHistory(): List<Track>

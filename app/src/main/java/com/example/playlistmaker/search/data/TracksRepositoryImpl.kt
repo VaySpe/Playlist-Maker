@@ -1,10 +1,8 @@
-package com.example.playlistmaker.data.repository
+package com.example.playlistmaker.search.data
 
 import android.util.Log
-import com.example.playlistmaker.data.network.ITunesApi
-import com.example.playlistmaker.data.storage.LocalStorage
-import com.example.playlistmaker.domain.models.Track
-import com.example.playlistmaker.domain.repository.TracksRepository
+import com.example.playlistmaker.search.domain.Track
+import com.example.playlistmaker.search.domain.TracksRepository
 import java.text.SimpleDateFormat
 import java.util.Locale
 

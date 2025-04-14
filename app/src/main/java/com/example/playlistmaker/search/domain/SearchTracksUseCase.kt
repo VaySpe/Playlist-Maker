@@ -1,7 +1,4 @@
-package com.example.playlistmaker.domain.usecase
-
-import com.example.playlistmaker.domain.models.Track
-import com.example.playlistmaker.domain.repository.TracksRepository
+package com.example.playlistmaker.search.domain
 
 class SearchTracksUseCase(
     private val repository: TracksRepository

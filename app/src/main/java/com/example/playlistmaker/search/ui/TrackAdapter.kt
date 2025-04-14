@@ -1,4 +1,4 @@
-package com.example.playlistmaker.presentation.search.adapter
+package com.example.playlistmaker.search.ui
 
 import android.content.Context
 import android.util.TypedValue
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.domain.models.Track
+import com.example.playlistmaker.search.domain.Track
 
 class TrackAdapter(
     private var tracks: List<Track>,

@@ -1,4 +1,4 @@
-package com.example.playlistmaker.domain.usecase
+package com.example.playlistmaker.search.domain
 
 import android.content.res.Resources
 import android.util.TypedValue

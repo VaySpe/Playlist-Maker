@@ -1,4 +1,4 @@
-package com.example.playlistmaker.presentation.library
+package com.example.playlistmaker.player.ui
 
 import com.example.playlistmaker.player.domain.PlayerState
 

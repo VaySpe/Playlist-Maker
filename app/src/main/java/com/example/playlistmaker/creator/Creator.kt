@@ -5,17 +5,20 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.R
-import com.example.playlistmaker.data.network.ITunesApi
+import com.example.playlistmaker.search.data.ITunesApi
 import com.example.playlistmaker.player.data.MediaPlayerRepositoryImpl
 import com.example.playlistmaker.settings.data.ThemeRepositoryImpl
-import com.example.playlistmaker.data.repository.TracksRepositoryImpl
-import com.example.playlistmaker.data.storage.LocalStorage
-import com.example.playlistmaker.data.storage.SharedPrefsLocalStorage
+import com.example.playlistmaker.search.data.TracksRepositoryImpl
+import com.example.playlistmaker.search.data.LocalStorage
+import com.example.playlistmaker.search.data.SharedPrefsLocalStorage
 import com.example.playlistmaker.settings.domain.ThemeRepository
-import com.example.playlistmaker.domain.repository.TracksRepository
-import com.example.playlistmaker.domain.usecase.*
+import com.example.playlistmaker.search.domain.TracksRepository
 import com.example.playlistmaker.player.domain.AudioPlayerImpl
 import com.example.playlistmaker.player.ui.PlayerViewModel
+import com.example.playlistmaker.search.domain.DpToPxUseCase
+import com.example.playlistmaker.search.domain.HistoryImpl
+import com.example.playlistmaker.search.domain.SearchTracksUseCase
+import com.example.playlistmaker.search.ui.SearchViewModel
 import com.example.playlistmaker.settings.domain.ThemeImpl
 import com.example.playlistmaker.settings.domain.ThemeInteract
 import com.example.playlistmaker.settings.ui.SettingsViewModel
@@ -126,4 +129,17 @@ object Creator {
             }
         }
     }
+
+    fun provideSearchViewModelFactory(context: Context): ViewModelProvider.Factory {
+        val searchTracksUseCase = provideSearchTracksUseCase()
+        val historyUseCase = provideHistoryUseCase()
+
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return SearchViewModel(searchTracksUseCase, historyUseCase) as T
+            }
+        }
+    }
+
 }

@@ -1,6 +1,4 @@
-package com.example.playlistmaker.domain.usecase
-
-import com.example.playlistmaker.domain.models.Track
+package com.example.playlistmaker.search.domain
 
 interface HistoryInteract {
     fun getHistory(): List<Track>
