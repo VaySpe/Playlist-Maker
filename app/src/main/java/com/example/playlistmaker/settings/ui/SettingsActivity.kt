@@ -7,36 +7,30 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.App
-import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.app.App
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity() {
 
-    private val viewModel by lazy {
-        Creator.provideSettingsViewModel()
-    }
+    private val viewModel: SettingsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        // Получаем ссылки на UI элементы
         val backSettingsBtn = findViewById<androidx.appcompat.widget.Toolbar>(R.id.settings_back)
         val shareBtn = findViewById<MaterialTextView>(R.id.share)
         val supportBtn = findViewById<MaterialTextView>(R.id.support)
         val docBtn = findViewById<MaterialTextView>(R.id.doc)
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
 
-        // Подписка на агрегированное состояние экрана (SettingsScreenState)
         viewModel.screenState.observe(this) { state ->
             themeSwitcher.isChecked = state.isDarkTheme
-            // Применяем тему через Application – здесь допустимо так вызвать метод из App
             (applicationContext as App).switchTheme(state.isDarkTheme)
         }
 
-        // Подписка на события (одноразовые, через SettingsEvent)
         viewModel.events.observe(this) { event ->
             when (event) {
                 SettingsEvent.ShareApp -> {
@@ -64,23 +58,18 @@ class SettingsActivity : AppCompatActivity() {
             viewModel.onEventHandled()
         }
 
-        // Загрузка текущего состояния темы
         viewModel.loadTheme()
 
-        // Переключатель
         themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
             viewModel.switchTheme(isChecked)
         }
 
-        // Обработчик кнопки "Назад"
         backSettingsBtn.setNavigationOnClickListener { finish() }
 
-        // Обработчики кнопок событий
         shareBtn.setOnClickListener { viewModel.shareApp() }
         supportBtn.setOnClickListener { viewModel.openSupport() }
         docBtn.setOnClickListener { viewModel.openTerms() }
 
-        // Дополнительная настройка цветов переключателя (если требуется)
         val states = arrayOf(
             intArrayOf(android.R.attr.state_checked),
             intArrayOf(-android.R.attr.state_checked)

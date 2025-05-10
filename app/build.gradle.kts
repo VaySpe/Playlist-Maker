@@ -50,4 +50,5 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("io.insert-koin:koin-android:3.5.3")
 }

@@ -4,28 +4,28 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.Track
-import com.google.gson.Gson
+import com.example.playlistmaker.search.ui.DpToPxUseCase
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.google.gson.Gson
 
 class AudioplayerActivity : AppCompatActivity() {
 
-    private val viewModel: PlayerViewModel by viewModels {
-        Creator.providePlayerViewModelFactory(this)
-    }
+    private val viewModel: PlayerViewModel by viewModel()
+    private val dpToPxUseCase: DpToPxUseCase by inject()
+    private val gson: Gson by inject()
 
     private lateinit var playBtn: ImageButton
     private lateinit var timerTextView: TextView
 
-    // UI элементы для показа информации о треке
     private lateinit var trackNameTextView: TextView
     private lateinit var artistNameTextView: TextView
     private lateinit var albumTextView: TextView
@@ -51,12 +51,10 @@ class AudioplayerActivity : AppCompatActivity() {
         countryTextView = findViewById(R.id.value_country)
         imageView = findViewById(R.id.audioplayer_image)
 
-        // Обработчик кнопки "Назад"
-        findViewById<androidx.appcompat.widget.Toolbar>(R.id.audioplayer_back).setNavigationOnClickListener { finish() }
+        findViewById<androidx.appcompat.widget.Toolbar>(R.id.audioplayer_back)
+            .setNavigationOnClickListener { finish() }
 
-        // Подписка на единое состояние экрана
         viewModel.screenState.observe(this) { state ->
-            // Обновляем информацию о треке
             trackNameTextView.text = state.trackName
             artistNameTextView.text = state.artistName
             albumTextView.text = state.album
@@ -65,31 +63,29 @@ class AudioplayerActivity : AppCompatActivity() {
             genreTextView.text = state.genre
             countryTextView.text = state.country
 
-            // Обновляем таймер
             timerTextView.text = state.timerText
 
-            // Обновляем состояние кнопки
-            val drawableRes = if (state.playerState == com.example.playlistmaker.player.domain.PlayerState.PLAYING)
-                R.drawable.button_pause else R.drawable.button_play
+            val drawableRes = if (state.playerState ==
+                com.example.playlistmaker.player.domain.PlayerState.PLAYING
+            ) R.drawable.button_pause else R.drawable.button_play
+
             playBtn.setImageDrawable(ContextCompat.getDrawable(this, drawableRes))
 
-            // Загружаем изображение трека через Glide
             Glide.with(this)
                 .load(state.artworkUrl)
                 .placeholder(R.drawable.placeholder)
                 .centerCrop()
-                .transform(RoundedCorners(Creator.provideDpToPxUseCase().execute(8f)))
+                .transform(RoundedCorners(dpToPxUseCase.execute(8f)))
                 .into(imageView)
         }
 
-        // Обработчик кнопки play/pause
         playBtn.setOnClickListener {
             viewModel.togglePlayPause()
         }
 
-        // Извлечение трека из Intent и подготовка плеера
         val trackJson = intent.getStringExtra("track_json") ?: return
-        val track = Gson().fromJson(trackJson, Track::class.java)
+        val track = gson.fromJson(trackJson, Track::class.java)
+
         lifecycleScope.launch {
             viewModel.prepare(track)
         }
