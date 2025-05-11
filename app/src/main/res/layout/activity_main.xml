@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     style="@style/Background"
-    tools:context=".presentation.main.MainActivity"
+    tools:context=".main.ui.MainActivity"
     android:paddingHorizontal="@dimen/small_padding"
     android:paddingBottom="@dimen/medium_padding">
 
