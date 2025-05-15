@@ -21,6 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.google.gson.Gson
 import android.content.Context
 import com.example.playlistmaker.R
+import com.example.playlistmaker.library.ui.favorites.FavoritesViewModel
+import com.example.playlistmaker.library.ui.playlists.PlaylistsViewModel
 
 
 val dataModule = module {
@@ -61,4 +63,7 @@ val presentationModule = module {
     viewModel { SearchViewModel(get(), get()) }
     viewModel { SettingsViewModel(get()) }
     viewModel { PlayerViewModel(get(), get(), androidApplication().getString(R.string.full_track_time)) }
+
+    viewModel { FavoritesViewModel() }
+    viewModel { PlaylistsViewModel() }
 }
