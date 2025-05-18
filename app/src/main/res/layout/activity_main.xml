@@ -1,48 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    style="@style/Background"
-    tools:context=".main.ui.MainActivity"
-    android:paddingHorizontal="@dimen/small_padding"
-    android:paddingBottom="@dimen/medium_padding">
+    style="@style/NightBackground">
 
-    <TextView
+    <!-- Контейнер для навигации -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/playlist_maker"
-        android:textColor="@color/white"
-        android:textSize="@dimen/big_text"
-        android:paddingBottom="@dimen/nvsmall_padding"
-        android:paddingTop="@dimen/vsmall_padding"
-        android:fontFamily="@font/ys_display_medium"/>
+        android:layout_height="match_parent"
+        app:navGraph="@navigation/nav_graph"
+        app:defaultNavHost="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/small_padding"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
 
-        <Button
-            android:id="@+id/search"
-            app:icon="@drawable/ic_search_19dp"
-            android:text="@string/search"
-            style="@style/MainButtonStyle"/>
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/on_search_background" />
 
-        <Button
-            android:id="@+id/library"
-            style="@style/MainButtonStyle"
-            app:icon="@drawable/ic_library"
-            android:text="@string/library"/>
-
-        <Button
-            android:id="@+id/settings"
-            style="@style/MainButtonStyle"
-            app:icon="@drawable/ic_settings"
-            android:text="@string/settings"/>
-
+        <!-- Bottom nav -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/bottom_nav_menu"
+            app:labelVisibilityMode="labeled"
+            style="@style/Nav"/>
     </LinearLayout>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

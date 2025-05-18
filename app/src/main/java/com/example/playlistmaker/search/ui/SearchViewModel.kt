@@ -28,6 +28,10 @@ class SearchViewModel(
     fun onQueryChanged(query: String) {
         updateState { it.copy(query = query, errorMessage = null, isLoading = false, navigateTo = null) }
 
+        searchRunnable?.let { handler.removeCallbacks(it) }
+        searchRunnable = null
+        searchJob?.cancel()
+
         if (query.isEmpty()) {
             updateState {
                 it.copy(
@@ -39,7 +43,6 @@ class SearchViewModel(
             return
         }
 
-        searchRunnable?.let { handler.removeCallbacks(it) }
         searchRunnable = Runnable { search(query) }
         handler.postDelayed(searchRunnable!!, DEBOUNCE_DELAY)
     }
