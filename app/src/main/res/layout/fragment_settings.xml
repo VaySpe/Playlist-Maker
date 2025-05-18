@@ -40,7 +40,5 @@
             android:drawableEnd="@drawable/arrow_forward"
             android:text="@string/doc"
             style="@style/SettingsText"/>
-
     </LinearLayout>
-
 </LinearLayout>
